@@ -1,10 +1,12 @@
-import React from "react";
-import loginhero from "../assets/images/loginbanner.jpg"
+import React, { useState } from "react";
+import loginhero from "../assets/images/loginbanner.jpg";
 
 export default function LoginPage() {
+  const [isLogin, setIsLogin] = useState(true);
+
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Image and Slogan */}
+      {/* Left Side - Image */}
       <div className="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-10">
         <div className="text-center">
           <img
@@ -15,13 +17,69 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
+      {/* Right Side - Form Area */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-20">
         <div className="w-full max-w-md">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Login / Signup</h2>
-          <p className="text-sm text-gray-500 mb-4">
-            Join us now to be a part of the Trendify® family.
+          {/* Tabs */}
+          <div className="flex justify-between mb-6 border-b border-gray-300">
+            <button
+              onClick={() => setIsLogin(true)}
+              className={`w-1/2 py-2 text-lg font-medium ${
+                isLogin
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`w-1/2 py-2 text-lg font-medium ${
+                !isLogin
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Register
+            </button>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            {isLogin ? "Login" : "Register"} to Trendify
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">
+            {isLogin
+              ? "Welcome back! Please login to continue."
+              : "Join us now and start shopping the trendiest fashion."}
           </p>
+
+          {/* Form */}
+          {!isLogin && (
+            <>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className="w-full px-4 py-2 border rounded-lg outline-none"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter email"
+                  className="w-full px-4 py-2 border rounded-lg outline-none"
+                />
+              </div>
+            </>
+          )}
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -39,8 +97,21 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700 transition mb-4">
-            CONTINUE
+          {!isLogin && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Create a password"
+                className="w-full px-4 py-2 border rounded-lg outline-none"
+              />
+            </div>
+          )}
+
+          <button className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition mb-4">
+            {isLogin ? "CONTINUE" : "REGISTER"}
           </button>
 
           <div className="flex items-center justify-between my-4">
@@ -49,6 +120,7 @@ export default function LoginPage() {
             <span className="h-px w-full bg-gray-300"></span>
           </div>
 
+          {/* Social Buttons */}
           <div className="space-y-3">
             <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
               <img
@@ -70,7 +142,8 @@ export default function LoginPage() {
           </div>
 
           <p className="text-xs text-gray-400 mt-6 text-center">
-            By creating an account or logging in, you agree with Trendify’s Terms & Conditions and Privacy Policy.
+            By creating an account or logging in, you agree to Trendify’s Terms &
+            Conditions and Privacy Policy.
           </p>
         </div>
       </div>
