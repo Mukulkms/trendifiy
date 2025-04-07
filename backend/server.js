@@ -27,12 +27,6 @@ app.get("/", (req, res) => {
     res.send("Trendify API is running...");
 });
 
-// const productRoutes = require("./routes/productRoutes");
-// console.log("✅ productRoutes loaded:", typeof productRoutes);
-
-// const paymentRoutes = require("./routes/paymentRoutes");
-// console.log("✅ paymentRoutes loaded:", typeof paymentRoutes);
-
 
 const productRoutes = require("./routes/productRoutes");
 app.use("/api/products", productRoutes);
@@ -40,6 +34,8 @@ app.use("/api/products", productRoutes);
 const paymentRoutes = require("./routes/paymentRoutes");
 app.use("/api/payment", paymentRoutes);
 
+const authRoutes = require("./routes/authRoutes"); // ✅
+app.use("/api/auth", authRoutes); // ✅
 
 // Start Server
 const PORT = process.env.PORT || 5000;
