@@ -1,10 +1,12 @@
 import LoginPage from "./pages/login";
+import Header from "./pages/header";
+
 
 function App() {
   return (
     <>
      <div>
-       <h1>this is header</h1>
+       <Header/>
        <LoginPage/>
      </div>
     </>
