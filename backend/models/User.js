@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 
+
 const userSchema = new mongoose.Schema({
   fullname: String,
   email: { type: String, unique: true },
@@ -10,6 +11,8 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user", enum: ["user", "admin", "vendor", "super-admin"] },
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   orderHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+  otp: { type: String },
+  otpExpiresAt: { type: Date },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
