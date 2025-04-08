@@ -6,9 +6,38 @@ export default function PasswordLoginModal({
   password,
   setPassword,
   handleSubmit,
+  mobileNumber,
 }) {
   if (!isOpen) return null;
-
+  const handlePasswordLogin = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mobileNumber, // ✅ comes from props
+          password,
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        alert(data.message || data.error || "Login failed");
+        return;
+      }
+  
+      localStorage.setItem("trendify_token", data.token); // optional
+      alert("✅ Login successful!");
+      onClose(); // close modal
+  
+      // Optional: Navigate or update user context
+    } catch (err) {
+      console.error("Login error", err);
+      alert("Something went wrong. Try again!");
+    }
+  };
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-xl p-6 w-80 relative">

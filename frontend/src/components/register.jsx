@@ -41,17 +41,29 @@ export default function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) return;
-
+  
+    const payload = {
+      fullname: fullName,
+      email,
+      mobileNumber,
+      password,
+    };
+  
+    console.log("📤 Sending payload to backend:", payload); // 🔍 Add this line
+  
     try {
       const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, email, mobileNumber, password }),
+        body: JSON.stringify(payload),
       });
-
+  
       const data = await res.json();
+  
+      console.log("📬 Backend responded with:", data); // 🔍 Add this line
+  
       if (data.error || data.message) {
         setError(data.error || data.message);
       } else {
@@ -59,11 +71,11 @@ export default function RegisterForm() {
         navigate("/home");
       }
     } catch (err) {
-      console.error(err);
+      console.error("❌ Fetch error:", err); // 🔍 Add this line
       setError("Something went wrong. Try again.");
     }
   };
-
+  
   return (
     <>
       <div className="mb-4">

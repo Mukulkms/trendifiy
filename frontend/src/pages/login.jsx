@@ -41,6 +41,7 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
+      console.log("Login response:", data); // Debugging line
 
       if (data.exists) {
         setLoginMethods(data.loginMethods);
@@ -62,7 +63,7 @@ export default function LoginPage() {
     const url =
       modalType === "otp"
         ? "http://localhost:5000/api/auth/verify-otp"
-        : "http://localhost:5000/api/auth/login-password";
+        : "http://localhost:5000/api/auth/login";
 
     const body =
       modalType === "otp"
@@ -263,6 +264,7 @@ export default function LoginPage() {
         password={password}
         setPassword={setPassword}
         handleSubmit={handleModalLogin}
+        mobileNumber={mobileNumber} // Pass mobile number to PasswordLoginModal
       />
     </div>
   );
