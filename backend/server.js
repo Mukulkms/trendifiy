@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 
+
 const productRoutes = require("./routes/productRoutes");
 app.use("/api/products", productRoutes);
 

@@ -44,24 +44,55 @@ export default function RegisterForm() {
 
     if (!validateForm()) return;
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, email, mobileNumber, password }),
-      });
+    const payload = {
+      fullname: fullName,
+      email,
+      mobileNumber,
+      password,
+    };
 
-      const data = await res.json();
-      if (data.error || data.message) {
-        setError(data.error || data.message);
-      } else {
-        alert("Registration Successful!");
-        navigate("/home");
+    console.log("📤 Sending payload to backend:", payload);
+
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      
+        const data = await res.json();
+        console.log("📬 Backend responded with:", data);
+      
+        if (!res.ok || data.error) {
+          setError(data.error || data.message || "Registration failed.");
+          return;
+        }
+      
+        alert("🎉 Registration successful!");
+      
+        // ✅ Attempt OTP send
+        const otpRes = await fetch("http://localhost:5000/api/auth/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mobileNumber }),
+        });
+      
+        const otpData = await otpRes.json();
+        console.log("📲 OTP Sent Response:", otpData);
+      
+        if (!otpRes.ok || !otpData.success) {
+          setError(otpData.message || "OTP sending failed. Please try logging in.");
+          return;
+        }
+      
+        alert("✅ OTP sent to your mobile. Proceeding to verification...");
+        navigate("/verify-otp", { state: { mobileNumber } });
+      
+      } catch (err) {
+        console.error("❌ Error in registration:", err);
+        setError("Something went wrong. Please try again later.");
       }
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Try again.");
-    }
+    
   };
 
   return (
