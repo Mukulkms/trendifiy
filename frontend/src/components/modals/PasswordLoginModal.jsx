@@ -1,43 +1,45 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function PasswordLoginModal({
   isOpen,
   onClose,
   password,
   setPassword,
-  handleSubmit,
   mobileNumber,
 }) {
+  const navigate = useNavigate();
+
   if (!isOpen) return null;
+
   const handlePasswordLogin = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          mobileNumber, // ✅ comes from props
+          mobileNumber,
           password,
         }),
       });
-  
+
       const data = await res.json();
-  
-      if (!res.ok) {
-        alert(data.message || data.error || "Login failed");
+
+      if (!res.ok || !data.token) {
+        // Just log the error, no alerts or toasts
+        console.warn("Login failed:", data.message || "Unknown error");
         return;
       }
-  
-      localStorage.setItem("trendify_token", data.token); // optional
-      alert("✅ Login successful!");
-      onClose(); // close modal
-  
-      // Optional: Navigate or update user context
+
+      localStorage.setItem("trendify_token", data.token);
+      onClose(); // close the modal
+      navigate("/home"); // 🔥 Redirect to home
     } catch (err) {
       console.error("Login error", err);
-      alert("Something went wrong. Try again!");
+      // Silent fail, as requested
     }
   };
-  
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-xl p-6 w-80 relative">
@@ -59,7 +61,7 @@ export default function PasswordLoginModal({
         />
 
         <button
-          onClick={handleSubmit}
+          onClick={handlePasswordLogin}
           className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800"
         >
           Login

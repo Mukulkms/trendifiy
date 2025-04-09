@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register";
 
-// Import modals
 import OTPLoginModal from "../components/modals/OTPLoginModal";
 import PasswordLoginModal from "../components/modals/PasswordLoginModal";
 
@@ -14,17 +13,19 @@ export default function LoginPage() {
   const [showOptions, setShowOptions] = useState(false);
   const [loginMethods, setLoginMethods] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState(""); // "otp" or "password"
+  const [modalType, setModalType] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [timer, setTimer] = useState(60);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const mobileRegex = /^[0-9]{10}$/;
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const mobileRegex = /^[0-9]{10}$/;
     if (!mobileNumber) {
       setError("Mobile number is required.");
       return;
@@ -34,28 +35,51 @@ export default function LoginPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      setIsLoading(true);
+      const res = await fetch("http://localhost:5000/api/auth/check-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobileNumber }),
       });
 
       const data = await res.json();
-      console.log("Login response:", data); // Debugging line
-
       if (data.exists) {
-        setLoginMethods(data.loginMethods);
+        setLoginMethods(data.loginMethods || []);
         setShowOptions(true);
         setError("");
-      } else if (data.token) {
-        alert("Login Successful!");
-        navigate("/home");
       } else {
-        setError(data.error || data.message || "Unknown error.");
+        setError(data.error || "User not found.");
       }
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOTPLoginClick = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("http://localhost:5000/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobileNumber }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setModalType("otp");
+        setShowModal(true);
+        setTimer(60);
+      } else {
+        console.error(data.message || "Failed to send OTP");
+      }
+    } catch (err) {
+      console.log("OTP send error");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,33 +88,40 @@ export default function LoginPage() {
       modalType === "otp"
         ? "http://localhost:5000/api/auth/verify-otp"
         : "http://localhost:5000/api/auth/login";
-
+  
     const body =
       modalType === "otp"
         ? { mobileNumber, otp }
         : { mobileNumber, password };
-
+  
     try {
+      setIsLoading(true);
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
+  
       const data = await res.json();
-
+  
       if (data.token) {
-        alert("Login Successful!");
+        localStorage.setItem("trendify_token", data.token);
         setShowModal(false);
-        navigate("/home");
+        setTimeout(() => {
+          navigate("/home");
+        }, 100);
       } else {
-        alert(data.message || "Login failed.");
+        // Don't show any alert. Just stay on modal so user can retry.
+        console.warn("Login failed:", data.message);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error during login.");
+      console.error("Error during login:", err);
+      // Silently fail
+    } finally {
+      setIsLoading(false);
     }
   };
+  
 
   const resendOtp = async () => {
     try {
@@ -101,32 +132,23 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (data.success) {
-        alert("OTP resent!");
+        console.log("OTP resent!");
         setTimer(60);
       }
     } catch (err) {
-      alert("Failed to resend OTP");
+      console.log("Failed to resend OTP");
     }
   };
 
-  useEffect(() => {
-    if (modalType === "otp" && timer > 0) {
-      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(interval);
-    }
-  }, [modalType, timer]);
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side image */}
       <div className="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-10">
         <img src={loginhero} alt="Trendify Banner" className="mb-6 rounded-xl shadow-lg" />
       </div>
 
-      {/* Right side form */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-20">
         <div className="w-full max-w-md">
-          {/* Tabs */}
           <div className="flex justify-between mb-6 border-b border-gray-300">
             <button
               onClick={() => {
@@ -163,7 +185,6 @@ export default function LoginPage() {
               : "Join us now and start shopping the trendiest fashion."}
           </p>
 
-          {/* Login Form */}
           {isLogin ? (
             <>
               <div className="mb-4">
@@ -185,20 +206,17 @@ export default function LoginPage() {
               <button
                 onClick={handleLogin}
                 className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition mb-4"
+                disabled={isLoading}
               >
-                CONTINUE
+                {isLoading ? "Loading..." : "CONTINUE"}
               </button>
 
-              {/* Login Options */}
               {showOptions && (
                 <div className="space-y-2 mt-4">
                   <p className="text-sm text-gray-600">Choose login method:</p>
                   {loginMethods.includes("otp") && (
                     <button
-                      onClick={() => {
-                        setModalType("otp");
-                        setShowModal(true);
-                      }}
+                      onClick={handleOTPLoginClick}
                       className="w-full border border-gray-300 py-2 rounded-lg hover:bg-gray-100"
                     >
                       Login via OTP
@@ -222,21 +240,19 @@ export default function LoginPage() {
             <RegisterForm />
           )}
 
-          {/* Divider */}
           <div className="flex items-center justify-between my-4">
             <span className="h-px w-full bg-gray-300"></span>
             <span className="text-gray-500 px-3 text-sm">OR</span>
             <span className="h-px w-full bg-gray-300"></span>
           </div>
 
-          {/* Social Login */}
           <div className="space-y-3">
             <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="h-5 w-5" />
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="h-5 w-5" alt="google icon" />
               Continue with Google
             </button>
             <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-              <img src="https://www.svgrepo.com/show/448224/facebook.svg" className="h-5 w-5" />
+              <img src="https://www.svgrepo.com/show/448224/facebook.svg" className="h-5 w-5" alt="fb icon"/>
               Continue with Facebook
             </button>
           </div>
@@ -247,7 +263,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Reusable Modals */}
       <OTPLoginModal
         isOpen={showModal && modalType === "otp"}
         onClose={() => setShowModal(false)}
@@ -264,7 +279,7 @@ export default function LoginPage() {
         password={password}
         setPassword={setPassword}
         handleSubmit={handleModalLogin}
-        mobileNumber={mobileNumber} // Pass mobile number to PasswordLoginModal
+        mobileNumber={mobileNumber}
       />
     </div>
   );

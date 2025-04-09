@@ -60,46 +60,52 @@ const verifyOTP = async (req, res) => {
 const register = async (req, res) => {
   console.log("📥 Register payload:", req.body);
 
-
   try {
     const { fullname, email, password, mobileNumber } = req.body;
 
-    // Check required fields
+    // 1. Validation
     if (!fullname || !email || !password || !mobileNumber) {
       return res.status(400).json({ error: "All fields are required." });
     }
-
-    // Check for duplicates
+    
+    // 2. Check for duplicates
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json({ error: "Email already registered. Please login." });
+      return res.status(409).json({ error: "Email already registered. Please login." });
     }
 
     const existingMobile = await User.findOne({ mobileNumber });
     if (existingMobile) {
-      return res.status(400).json({ error: "Mobile number already registered. Please login." });
+      return res.status(409).json({ error: "Mobile number already registered. Please login." });
     }
 
-    // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // // 3. Hash password
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user with hashed password
+    // 4. Generate OTP
+    const otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+
+    // 5. Create user with OTP
     const user = await User.create({
       fullname,
       email,
-      password: hashedPassword,
+      password,
       mobileNumber,
+      otp,
+      otpExpiresAt,
     });
 
-    // Respond with token and user data
+
+    // 7. Send success response
     res.status(201).json({
-      token: generateToken(user._id),
-      user: {
-        _id: user._id,
-        fullname: user.fullname,
-        email: user.email,
-        mobileNumber: user.mobileNumber,
-      },
+      success: true,
+      message: "User registered. OTP sent for verification.",
+      otpSent: true,
     });
 
   } catch (err) {
@@ -141,18 +147,51 @@ const login = async (req, res) => {
           mobileNumber: user.mobileNumber,
         },
       });
+    } else {
+      // 👇 Generate and save OTP
+      const otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+        specialChars: false,
+      });
+
+      user.otp = otp;
+      user.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min expiry
+      await user.save();
+
+      console.log(`🔐 OTP for ${mobileNumber} is ${otp}`);
+
+      return res.json({
+        otpSent: true,
+        message: "OTP sent successfully",
+      });
     }
-
-    return res.json({
-      exists: true,
-      loginMethods: ["otp", "password"],
-    });
-
   } catch (err) {
     console.error("❌ Login error:", err);
     res.status(500).json({ error: "Server error during login." });
   }
 };
+
+const checkUserLoginMethods = async (req, res) => {
+  const { mobileNumber } = req.body;
+
+  if (!mobileNumber) {
+    return res.status(400).json({ message: "Mobile number is required" });
+  }
+
+  const user = await User.findOne({ mobileNumber });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not registered" });
+  }
+
+  const loginMethods = [];
+
+  if (user.password) loginMethods.push("password");
+  loginMethods.push("otp"); // Assuming OTP is always allowed
+
+  return res.json({ exists: true, loginMethods });
+};
+
 
 // ✅ CommonJS export
 module.exports = {
@@ -160,4 +199,5 @@ module.exports = {
   login,
   sendOTP,
   verifyOTP,
+  checkUserLoginMethods,
 };
