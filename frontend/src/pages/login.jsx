@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register";
@@ -18,6 +18,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [timer, setTimer] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
+
+  // ⏳ Timer countdown effect
+useEffect(() => {
+  let interval;
+
+  if (showModal && modalType === "otp" && timer > 0) {
+    interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+  }
+
+  return () => clearInterval(interval);
+}, [showModal, modalType, timer]);
 
   const navigate = useNavigate();
 
