@@ -3,9 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Im
 import LoginPage from "./pages/login"; // Import the LoginPage component
 import HomePage from "./pages/home"; // Import the HomePage component
 
+
 function App() {
   return (
+
     <Router> {/* Wrapping the application with Router */}
+    
       <Routes>
         {/* Defining the routes */}
         <Route path="/" element={<LoginPage />} />  {/* LoginPage will be shown at the root path */}
