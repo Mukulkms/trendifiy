@@ -19,9 +19,6 @@ export default function LoginPage() {
   const [timer, setTimer] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
-  const mobileRegex = /^[0-9]{10}$/;
-
   // ⏳ Timer countdown effect
   useEffect(() => {
     let interval;
@@ -34,6 +31,10 @@ export default function LoginPage() {
 
     return () => clearInterval(interval);
   }, [showModal, modalType, timer]);
+
+  const navigate = useNavigate();
+
+  const mobileRegex = /^[0-9]{10}$/;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -121,10 +122,12 @@ export default function LoginPage() {
           navigate("/home");
         }, 100);
       } else {
+        // Don't show any alert. Just stay on modal so user can retry.
         console.warn("Login failed:", data.message);
       }
     } catch (err) {
       console.error("Error during login:", err);
+      // Silently fail
     } finally {
       setIsLoading(false);
     }
@@ -258,40 +261,35 @@ export default function LoginPage() {
             <RegisterForm />
           )}
 
-          {isLogin && (
-            <>
-              <div className="flex items-center justify-between my-4">
-                <span className="h-px w-full bg-gray-300"></span>
-                <span className="text-gray-500 px-3 text-sm">OR</span>
-                <span className="h-px w-full bg-gray-300"></span>
-              </div>
+          <div className="flex items-center justify-between my-4">
+            <span className="h-px w-full bg-gray-300"></span>
+            <span className="text-gray-500 px-3 text-sm">OR</span>
+            <span className="h-px w-full bg-gray-300"></span>
+          </div>
 
-              <div className="space-y-3">
-                <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-                  <img
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    className="h-5 w-5"
-                    alt="google icon"
-                  />
-                  Continue with Google
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.open("http://localhost:5000/auth/facebook", "_self");
-                  }}
-                  className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
-                >
-                  <img
-                    src="https://www.svgrepo.com/show/448224/facebook.svg"
-                    className="h-5 w-5"
-                    alt="fb icon"
-                  />
-                  Continue with Facebook
-                </button>
-              </div>
-            </>
-          )}
+          <div className="space-y-3">
+            <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                className="h-5 w-5"
+                alt="google icon"
+              />
+              Continue with Google
+            </button>
+            <button type="button"
+              onClick={() => {
+                window.open("http://localhost:5000/auth/facebook", "_self");
+              }}
+              className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
+            >
+              <img
+                src="https://www.svgrepo.com/show/448224/facebook.svg"
+                className="h-5 w-5"
+                alt="fb icon"
+              />
+              Continue with Facebook
+            </button>
+          </div>
 
           <p className="text-xs text-gray-400 mt-6 text-center">
             By creating an account or logging in, you agree to Trendify’s Terms
