@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register";
@@ -20,17 +20,17 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // ⏳ Timer countdown effect
-useEffect(() => {
-  let interval;
+  useEffect(() => {
+    let interval;
 
-  if (showModal && modalType === "otp" && timer > 0) {
-    interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-  }
+    if (showModal && modalType === "otp" && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
 
-  return () => clearInterval(interval);
-}, [showModal, modalType, timer]);
+    return () => clearInterval(interval);
+  }, [showModal, modalType, timer]);
 
   const navigate = useNavigate();
 
@@ -101,12 +101,10 @@ useEffect(() => {
       modalType === "otp"
         ? "http://localhost:5000/api/auth/verify-otp"
         : "http://localhost:5000/api/auth/login";
-  
+
     const body =
-      modalType === "otp"
-        ? { mobileNumber, otp }
-        : { mobileNumber, password };
-  
+      modalType === "otp" ? { mobileNumber, otp } : { mobileNumber, password };
+
     try {
       setIsLoading(true);
       const res = await fetch(url, {
@@ -114,9 +112,9 @@ useEffect(() => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-  
+
       const data = await res.json();
-  
+
       if (data.token) {
         localStorage.setItem("trendify_token", data.token);
         setShowModal(false);
@@ -134,7 +132,6 @@ useEffect(() => {
       setIsLoading(false);
     }
   };
-  
 
   const resendOtp = async () => {
     try {
@@ -153,11 +150,14 @@ useEffect(() => {
     }
   };
 
-
   return (
     <div className="min-h-screen flex">
       <div className="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-10">
-        <img src={loginhero} alt="Trendify Banner" className="mb-6 rounded-xl shadow-lg" />
+        <img
+          src={loginhero}
+          alt="Trendify Banner"
+          className="mb-6 rounded-xl shadow-lg"
+        />
       </div>
 
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-20">
@@ -170,7 +170,9 @@ useEffect(() => {
                 setError("");
               }}
               className={`w-1/2 py-2 text-lg font-medium ${
-                isLogin ? "border-b-2 border-black text-black" : "text-gray-500 hover:text-black"
+                isLogin
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
               }`}
             >
               Login
@@ -182,7 +184,9 @@ useEffect(() => {
                 setError("");
               }}
               className={`w-1/2 py-2 text-lg font-medium ${
-                !isLogin ? "border-b-2 border-black text-black" : "text-gray-500 hover:text-black"
+                !isLogin
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
               }`}
             >
               Register
@@ -201,9 +205,13 @@ useEffect(() => {
           {isLogin ? (
             <>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Mobile Number
+                </label>
                 <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                  <span className="px-3 bg-gray-100 text-gray-700 flex items-center">+91</span>
+                  <span className="px-3 bg-gray-100 text-gray-700 flex items-center">
+                    +91
+                  </span>
                   <input
                     type="text"
                     placeholder="Enter Mobile Number"
@@ -261,17 +269,31 @@ useEffect(() => {
 
           <div className="space-y-3">
             <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="h-5 w-5" alt="google icon" />
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                className="h-5 w-5"
+                alt="google icon"
+              />
               Continue with Google
             </button>
-            <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-              <img src="https://www.svgrepo.com/show/448224/facebook.svg" className="h-5 w-5" alt="fb icon"/>
+            <button type="button"
+              onClick={() => {
+                window.open("http://localhost:5000/auth/facebook", "_self");
+              }}
+              className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
+            >
+              <img
+                src="https://www.svgrepo.com/show/448224/facebook.svg"
+                className="h-5 w-5"
+                alt="fb icon"
+              />
               Continue with Facebook
             </button>
           </div>
 
           <p className="text-xs text-gray-400 mt-6 text-center">
-            By creating an account or logging in, you agree to Trendify’s Terms & Conditions and Privacy Policy.
+            By creating an account or logging in, you agree to Trendify’s Terms
+            & Conditions and Privacy Policy.
           </p>
         </div>
       </div>

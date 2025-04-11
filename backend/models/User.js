@@ -4,36 +4,65 @@ const bcrypt = require("bcryptjs");
 const userSchema = new mongoose.Schema(
   {
     fullname: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    mobileNumber: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    provider: { type: String, default: "local" },
+
+    // ✅ Email is required for local login, optional for Facebook
+    email: {
+      type: String,
+      unique: true,
+      sparse: true, // allow multiple nulls
+    },
+
+    // ✅ mobileNumber is optional for Facebook
+    mobileNumber: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+
+    // ✅ password is optional for Facebook
+    password: {
+      type: String,
+    },
+
+    // ✅ Facebook login
+    facebookId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+
+    profilePic: { type: String },
+
+    provider: {
+      type: String,
+      default: "local",
+      enum: ["local", "facebook", "google"],
+    },
+
     role: {
       type: String,
       default: "user",
       enum: ["user", "admin", "vendor", "super-admin"],
     },
+
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     orderHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+
     otp: { type: String },
     otpExpiresAt: { type: Date },
   },
   { timestamps: true }
 );
 
-// ✅ Automatically hash password before saving (only if modified)
+// ✅ Automatically hash password before saving (only if modified and exists)
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password") || !this.password) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
 // ✅ Password comparison method for login
 userSchema.methods.comparePassword = async function (enteredPassword) {
-  // Debug logs if needed
-  // console.log("Entered password:", enteredPassword);
-  // console.log("Stored hash:", this.password);
-
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
