@@ -54,6 +54,10 @@ app.use("/api/auth", authRoutes); // ✅
 
 const facebookAuthRoutes = require("./routes/facebookAuth");
 app.use("/auth", facebookAuthRoutes);
+
+const googleAuthRoutes = require("./routes/googleAuth");
+app.use("/api/auth", googleAuthRoutes); // ✅
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));

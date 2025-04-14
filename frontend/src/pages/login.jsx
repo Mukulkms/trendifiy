@@ -268,14 +268,19 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-3">
-            <button className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50">
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                className="h-5 w-5"
-                alt="google icon"
-              />
+          <button
+                onClick={() => {
+                  window.open("http://localhost:5000/api/auth/google", "_self");
+                }}
+                className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
+              >
+              <img  
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  className="h-5 w-5"
+                  alt="google icon"
+                />
               Continue with Google
-            </button>
+              </button>
             <button type="button"
               onClick={() => {
                 window.open("http://localhost:5000/auth/facebook", "_self");

@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-
+    
     // ✅ Facebook login
     facebookId: {
       type: String,
@@ -33,12 +33,20 @@ const userSchema = new mongoose.Schema(
 
     profilePic: { type: String },
 
+    //Google login
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true
+    },
+    avatar: String,
+
     provider: {
       type: String,
       default: "local",
       enum: ["local", "facebook", "google"],
     },
-
+    
     role: {
       type: String,
       default: "user",
