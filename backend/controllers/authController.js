@@ -61,14 +61,24 @@ const register = async (req, res) => {
   console.log("📥 Register payload:", req.body);
 
   try {
-    const { fullname, email, password, mobileNumber } = req.body;
+    // Trim all values
+    const fullname = req.body.fullname?.trim();
+    const email = req.body.email?.trim();
+    const password = req.body.password?.trim();
+    const confirmPassword = req.body.confirmPassword?.trim();
+    const mobileNumber = req.body.mobileNumber?.trim();
 
-    // 1. Validation
-    if (!fullname || !email || !password || !mobileNumber) {
+    // 1. Validation - Check if all fields are filled
+    if (!fullname || !email || !password || !confirmPassword || !mobileNumber) {
       return res.status(400).json({ error: "All fields are required." });
     }
-    
-    // 2. Check for duplicates
+
+    // 2. Password match check
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match." });
+    }
+
+    // 3. Check for duplicates
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res.status(409).json({ error: "Email already registered. Please login." });
@@ -79,9 +89,6 @@ const register = async (req, res) => {
       return res.status(409).json({ error: "Mobile number already registered. Please login." });
     }
 
-    // // 3. Hash password
-    // const hashedPassword = await bcrypt.hash(password, 10);
-
     // 4. Generate OTP
     const otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
@@ -90,7 +97,7 @@ const register = async (req, res) => {
 
     const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-    // 5. Create user with OTP
+    // 5. Create user
     const user = await User.create({
       fullname,
       email,
@@ -100,8 +107,7 @@ const register = async (req, res) => {
       otpExpiresAt,
     });
 
-
-    // 7. Send success response
+    // 6. Respond success
     res.status(201).json({
       success: true,
       message: "User registered. OTP sent for verification.",
@@ -121,6 +127,7 @@ const register = async (req, res) => {
     res.status(500).json({ error: "Server error during registration." });
   }
 };
+
 
 
 const login = async (req, res) => {

@@ -151,18 +151,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="hidden md:flex w-1/2 bg-gray-100 items-center justify-center p-10">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <div className=" md:flex w-1/2 h-full">
         <img
           src={loginhero}
           alt="Trendify Banner"
-          className="mb-6 rounded-xl shadow-lg"
+          className="w-full h-1/2 object-cover "
         />
       </div>
 
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 px-6 md:px-20">
-        <div className="w-full max-w-md">
-          <div className="flex justify-between mb-6 border-b border-gray-300">
+      <div className="flex flex-col lg:mt-32 md:mt-20 items-center w-full md:w-1/2 px-6 py-10 md:py-0">
+        {" "}
+        {/* Adjusted padding */}
+        <div className="w-full max-w-xl">
+          <div className="flex justify-between mb-4 border-b border-gray-300">
             <button
               onClick={() => {
                 setIsLogin(true);
@@ -193,10 +195,10 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-3">
             {isLogin ? "Login" : "Register"} to Trendify
           </h2>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 mb-4">
             {isLogin
               ? "Welcome back! Please login to continue."
               : "Join us now and start shopping the trendiest fashion."}
@@ -222,11 +224,11 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+              {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
               <button
                 onClick={handleLogin}
-                className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition mb-4"
+                className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition mb-3"
                 disabled={isLoading}
               >
                 {isLoading ? "Loading..." : "CONTINUE"}
@@ -261,27 +263,28 @@ export default function LoginPage() {
             <RegisterForm />
           )}
 
-          <div className="flex items-center justify-between my-4">
+          <div className="flex items-center justify-between my-3">
             <span className="h-px w-full bg-gray-300"></span>
             <span className="text-gray-500 px-3 text-sm">OR</span>
             <span className="h-px w-full bg-gray-300"></span>
           </div>
 
           <div className="space-y-3">
-          <button
-                onClick={() => {
-                  window.open("http://localhost:5000/api/auth/google", "_self");
-                }}
-                className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
-              >
-              <img  
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  className="h-5 w-5"
-                  alt="google icon"
-                />
+            <button
+              onClick={() => {
+                window.open("http://localhost:5000/api/auth/google", "_self");
+              }}
+              className="w-full border border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50"
+            >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                className="h-5 w-5"
+                alt="google icon"
+              />
               Continue with Google
-              </button>
-            <button type="button"
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 window.open("http://localhost:5000/auth/facebook", "_self");
               }}

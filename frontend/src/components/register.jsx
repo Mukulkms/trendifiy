@@ -6,11 +6,12 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!fullName || !email || !mobileNumber || !password) {
+    if (!fullName || !email || !mobileNumber || !password || !confirmPassword) {
       setError("All fields are required.");
       return false;
     }
@@ -35,13 +36,17 @@ export default function RegisterForm() {
       return false;
     }
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return false;
+    }
+
     setError("");
     return true;
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     const payload = {
@@ -51,48 +56,41 @@ export default function RegisterForm() {
       password,
     };
 
-    console.log("📤 Sending payload to backend:", payload);
-
     try {
-        const res = await fetch("http://localhost:5000/api/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      
-        const data = await res.json();
-        console.log("📬 Backend responded with:", data);
-      
-        if (!res.ok || data.error) {
-          setError(data.error || data.message || "Registration failed.");
-          return;
-        }
-      
-        alert("🎉 Registration successful!");
-      
-        // ✅ Attempt OTP send
-        const otpRes = await fetch("http://localhost:5000/api/auth/send-otp", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mobileNumber }),
-        });
-      
-        const otpData = await otpRes.json();
-        console.log("📲 OTP Sent Response:", otpData);
-      
-        if (!otpRes.ok || !otpData.success) {
-          setError(otpData.message || "OTP sending failed. Please try logging in.");
-          return;
-        }
-      
-        alert("✅ OTP sent to your mobile. Proceeding to verification...");
-        navigate("/verify-otp", { state: { mobileNumber } });
-      
-      } catch (err) {
-        console.error("❌ Error in registration:", err);
-        setError("Something went wrong. Please try again later.");
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        setError(data.error || data.message || "Registration failed.");
+        return;
       }
-    
+
+      alert("🎉 Registration successful!");
+
+      const otpRes = await fetch("http://localhost:5000/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobileNumber }),
+      });
+
+      const otpData = await otpRes.json();
+
+      if (!otpRes.ok || !otpData.success) {
+        setError(otpData.message || "OTP sending failed. Please try logging in.");
+        return;
+      }
+
+      alert("✅ OTP sent to your mobile. Proceeding to verification...");
+      navigate("/verify-otp", { state: { mobileNumber } });
+    } catch (err) {
+      console.error("❌ Error in registration:", err);
+      setError("Something went wrong. Please try again later.");
+    }
   };
 
   return (
@@ -141,6 +139,18 @@ export default function RegisterForm() {
           className="w-full px-4 py-2 border rounded-lg outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+
+      {/* ✅ Confirm Password Field */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+        <input
+          type="password"
+          placeholder="Re-enter your password"
+          className="w-full px-4 py-2 border rounded-lg outline-none"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
 
