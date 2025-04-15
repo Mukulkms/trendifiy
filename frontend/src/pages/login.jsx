@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register";
-
 import OTPLoginModal from "../components/modals/OTPLoginModal";
 import PasswordLoginModal from "../components/modals/PasswordLoginModal";
 
-export default function LoginPage() {
+export default function LoginPage({ closeModal }) {
   const [isLogin, setIsLogin] = useState(true);
   const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
@@ -152,7 +151,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <div className=" md:flex w-1/2 h-full">
+      <div className=" md:flex md:w-1/2 h-full">
         <img
           src={loginhero}
           alt="Trendify Banner"
@@ -160,9 +159,8 @@ export default function LoginPage() {
         />
       </div>
 
-      <div className="flex flex-col lg:mt-32 md:mt-20 items-center w-full md:w-1/2 px-6 py-10 md:py-0">
+      <div className="flex flex-col lg:mt-20 md:mt-20 items-center w-full md:w-1/2 px-6 py-10 md:py-0">
         {" "}
-        {/* Adjusted padding */}
         <div className="w-full max-w-xl">
           <div className="flex justify-between mb-4 border-b border-gray-300">
             <button
