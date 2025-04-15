@@ -22,7 +22,7 @@ router.get(
         expiresIn: "7d",
       });
       console.log("🔐 Generated token:", token);
-      res.redirect(`http://localhost:3000/home?token=${token}`);
+      res.redirect(`http://localhost:3000/?token=${token}`);
     }
   );
 

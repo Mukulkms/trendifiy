@@ -1,4 +1,4 @@
-import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu,UserCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginModal from './modals/loginmodal';
@@ -57,12 +57,15 @@ export default function Header() {
             />
             <Search className="absolute left-3 top-2.5 text-gray-500 w-4 h-4" />
           </div>
+          <div className="flex gap-1 cursor-pointer hover:text-red-600 transition">
+          <UserCircle className="w-5 h-5 "/>
           <button
             onClick={() => setShowLoginModal(true)}
-            className="text-sm hover:text-red-600 transition"
-          >
+            className="text-sm"
+            >
             Login
           </button>
+            </div>
           <Heart className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />
           <Link to="/cart">
             <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />

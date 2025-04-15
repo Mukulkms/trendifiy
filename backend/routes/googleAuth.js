@@ -11,7 +11,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // Redirect or send token after successful login
-    res.redirect("http://localhost:3000/home"); // or send token from backend if you're doing JWT
+    res.redirect("http://localhost:3000"); // or send token from backend if you're doing JWT
   }
 );
 
