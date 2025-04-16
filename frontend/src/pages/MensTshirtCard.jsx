@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -9,7 +9,7 @@ import menstshirt3 from '../assets/images/mehrab-zahedbeigi-IeUiAuDK0XY-unsplash
 import menstshirt4 from '../assets/images/jusdevoyage-nvZ4NubOIZE-unsplash.jpg';
 
 // ✅ Sample Data
-const mensTshirts = [
+const tshirtData = [
   {
     id: 1,
     name: 'Harry Potter: Magic',
@@ -64,31 +64,31 @@ const mensTshirts = [
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 1600 },
-    items: 4,
+    items: 4,  // Show 4 items on large screens
   },
   desktop: {
     breakpoint: { max: 1600, min: 1024 },
-    items: 3,
+    items: 4,  // Show 4 items on desktops
   },
   tablet: {
     breakpoint: { max: 1024, min: 640 },
-    items: 2,
+    items: 2,  // Show 2 items on tablets
   },
   mobile: {
     breakpoint: { max: 640, min: 0 },
-    items: 1,
+    items: 1,  // Show 1 item on mobile
   },
 };
 
-// ✅ Reusable Card
-const MensTshirtCard = ({ tshirt }) => (
-  <div className="bg-white  shadow hover:shadow-lg transition-transform duration-300 hover:scale-105 mx-2">
+// ✅ Reusable Card (memoized for performance)
+const MensTshirtCard = React.memo(({ tshirt }) => (
+  <div className="bg-white shadow-md hover:shadow-lg transition-transform duration-300 transform-gpu hover:scale-105 mx-2 overflow-hidden">
     <Link to={tshirt.checkoutUrl} className="block">
       <img
         src={tshirt.imageSrc}
         alt={tshirt.name}
-        className="w-full object-cover "
-        style={{ aspectRatio: '3/3' }}
+        className="w-full object-cover"
+        style={{ aspectRatio: '3 / 4' }}
         loading="lazy"
       />
     </Link>
@@ -102,14 +102,16 @@ const MensTshirtCard = ({ tshirt }) => (
       <p className="text-lg font-bold text-gray-900 mt-1">₹{tshirt.price}</p>
     </div>
   </div>
-);
+));
 
 // ✅ Main Component
 const MensTshirtsOfWeek = () => {
+  const tshirtsList = useMemo(() => tshirtData, []);
+
   return (
     <section className="bg-gray-100 py-12 font-sans">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
           Men's T-Shirts of the Week
         </h2>
 
@@ -121,10 +123,11 @@ const MensTshirtsOfWeek = () => {
           arrows
           autoPlay={false}
           keyBoardControl
+          lazyLoad="ondemand"
           containerClass="carousel-container"
           itemClass="px-2"
         >
-          {mensTshirts.map((tshirt) => (
+          {tshirtsList.map((tshirt) => (
             <MensTshirtCard key={tshirt.id} tshirt={tshirt} />
           ))}
         </Carousel>

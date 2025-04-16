@@ -106,7 +106,7 @@ const TopSneakersOfWeek = () => {
   return (
     <section className="bg-gray-100 py-12 font-sans font-normal">
       <div className="max-w-8xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-10">
           Top 10 Sneakers of the Week
         </h2>
         <Carousel
