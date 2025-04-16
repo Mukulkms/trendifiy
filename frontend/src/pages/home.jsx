@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import TopSneakersOfWeek from "./TopSneakersOfWeek";
+import MensTshirtsOfWeek from "./MensTshirtCard";
 
 export default function HomePage() {
   const location = useLocation();
@@ -18,7 +20,8 @@ export default function HomePage() {
 
   return (
     <div>
-     
+     <TopSneakersOfWeek/>
+     <MensTshirtsOfWeek/>
     </div>
   );
 }

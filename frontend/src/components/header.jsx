@@ -121,7 +121,7 @@ export default function Header() {
       )}
 
       {/* Sub Navigation - Desktop Only */}
-      <div className="hidden md:flex bg-slate-600 text-white text-center py-2 px-5">
+      <div className="hidden md:flex bg-red-500 text-white text-center py-2 px-5">
         <nav className="flex justify-center gap-6 text-sm font-semibold w-full">
           {[
             "MEN",
