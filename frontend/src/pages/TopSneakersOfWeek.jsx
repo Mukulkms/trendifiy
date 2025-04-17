@@ -120,7 +120,7 @@ const TopSneakersOfWeek = () => {
           shouldResetAutoplay={false}
           containerClass="carousel-container"
           itemClass="px-2"
-          removeArrowOnDeviceType={['mobile']}
+          removeArrowOnDeviceType={[]} // Show arrows on all screen sizes
         >
           {sneakers.map((sneaker) => (
             <SneakerCard key={sneaker.id} sneaker={sneaker} />
