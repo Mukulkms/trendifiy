@@ -89,7 +89,7 @@ const MensTshirtCard = React.memo(({ tshirt }) => (
         alt={tshirt.name}
         className="w-full object-cover"
         style={{ aspectRatio: '3 / 4' }}
-        loading="lazy"
+        loading="lazy"  // Lazy loading for images
       />
     </Link>
     <div className="p-4">
@@ -117,15 +117,17 @@ const MensTshirtsOfWeek = () => {
 
         <Carousel
           responsive={responsive}
-          infinite={false}
+          infinite={false}         // Disable infinite scrolling
           swipeable
           draggable
           arrows
-          autoPlay={false}
+          autoPlay={false}         // Disable auto play
           keyBoardControl
-          lazyLoad="ondemand"
+          lazyLoad="ondemand"      // Lazy load on demand
           containerClass="carousel-container"
           itemClass="px-2"
+          transitionDuration={500} // Set the transition speed for better smoothness
+          autoPlaySpeed={3000}     // Optional: adjust autoplay speed if needed
         >
           {tshirtsList.map((tshirt) => (
             <MensTshirtCard key={tshirt.id} tshirt={tshirt} />
