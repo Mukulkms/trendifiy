@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function PasswordLoginModal({
   isOpen,
@@ -59,6 +59,15 @@ export default function PasswordLoginModal({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <div className="text-left mb-4">
+          <Link
+            to="/cool"
+            className="text-sm text-blue-600 hover:underline focus:outline-none"
+          >
+            Forgot Password?
+          </Link>
+        </div>
 
         <button
           onClick={handlePasswordLogin}

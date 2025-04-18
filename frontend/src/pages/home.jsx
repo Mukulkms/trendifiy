@@ -5,6 +5,7 @@ import MensTshirtsOfWeek from "./MensTshirtCard";
 import MultiCarouselbanner from "../components/MultiCarouselbanner";
 import NewArrivals from "./newarrival";
 
+
 export default function HomePage() {
   const location = useLocation();
   const navigate = useNavigate();
