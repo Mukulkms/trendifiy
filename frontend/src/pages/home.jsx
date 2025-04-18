@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import TopSneakersOfWeek from "./TopSneakersOfWeek";
 import MensTshirtsOfWeek from "./MensTshirtCard";
 import MultiCarouselbanner from "../components/MultiCarouselbanner";
-import NewArrivals from "./newarrival";
+import NewArrivals from "./NewArrival";
 
 
 export default function HomePage() {
