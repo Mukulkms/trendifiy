@@ -1,33 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
-import { UserCircle, ShoppingBag, ArrowUp } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ArrowUp } from "lucide-react";
+import LoginModal from "../components/modals/loginmodal";
+import { UserCircle } from "lucide-react";
 
-const Footer = ({ cartItemCount = 0, user = null, onLoginClick }) => {
+const Footer = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const footerSections = [
     {
       title: "Customer Care",
       links: [
         { name: "Contact Us", href: "#" },
-        { name: "Call Now: 800 227 8437", href: "#" },
-        { name: "FAQ", href: "#" },
+        { name: "Call Now: 8979364897", href: "#" },
         { name: "Track Your Order", href: "#" },
-        // { name: "Book an Appointment", href: "#" },
       ],
     },
     {
       title: "Our Company",
       links: [
-        { name: "About Us ↗", href: "#" },
-        // { name: "Careers ↗", href: "#" },
-        // { name: "Cartier and Corporate Social Responsibility", href: "#" },
+        { name: "About Us", href: "/about" },
+        { name: "Terms of Use", href: "#" },
+        { name: "Privacy Policy", href: "#" },
+        { name: "Conditions of Sale", href: "#" },
+        { name: "FAQ", href: "#" },
       ],
     },
     {
       title: "Legal Area",
       links: [
-        { name: "Terms of Use", href: "#" },
-        { name: "Privacy Policy", href: "#" },
-        { name: "Conditions of Sale", href: "#" },
         { name: "Credits", href: "#" },
         { name: "Accessibility Statement", href: "#" },
         // { name: "California Privacy Rights", href: "#" },
@@ -37,9 +37,9 @@ const Footer = ({ cartItemCount = 0, user = null, onLoginClick }) => {
     {
       title: "Quick Links",
       links: [
-        { name: "Men", href: "#" },
-        { name: "Women", href: "#" },
-        { name: "Plussize", href: "#" },
+        { name: "Men", href: "/men" },
+        { name: "Women", href: "/women" },
+        { name: "Kids", href: "/kids" },
         { name: "Accessories", href: "#" },
         { name: "Heavyduty", href: "#" },
         { name: "Sneakers", href: "#" },
@@ -106,33 +106,10 @@ const Footer = ({ cartItemCount = 0, user = null, onLoginClick }) => {
             ))}
           </div>
 
-          <div className="mt-3 space-y-2">
-            <button
-              className="flex items-center gap-2 hover:underline"
-              onClick={onLoginClick}
-            >
-              <UserCircle className="w-5 h-5" />
-              {user ? `Hi, ${user.name}` : "Login"}
-            </button>
-
-            <div className="flex items-center gap-2">
-              <i className="ri-heart-line"></i>
-              <a href="#" className="hover:underline">
-                Wishlist
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5" />
-              <span>
-                {cartItemCount} item{cartItemCount !== 1 ? "s" : ""} in cart
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <button className="border border-gray-300 px-3 py-1 text-xs rounded hover:bg-gray-100">
-              Accessibility Options
+          <div className="flex gap-1 cursor-pointer hover:text-red-600 transition">
+            <UserCircle className="w-5 h-5 " />
+            <button onClick={() => setShowLoginModal(true)} className="text-sm">
+              Login
             </button>
           </div>
         </div>
@@ -162,6 +139,10 @@ const Footer = ({ cartItemCount = 0, user = null, onLoginClick }) => {
       >
         <ArrowUp size={20} />
       </button>
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
     </footer>
   );
 };

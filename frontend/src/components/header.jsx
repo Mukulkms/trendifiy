@@ -34,7 +34,7 @@ export default function Header() {
           <nav className="hidden md:flex gap-5 md:gap-8 text-sm font-semibold">
             <Link to="/men" className="hover:text-red-600 transition">MEN</Link>
             <Link to="/women" className="hover:text-red-600 transition">WOMEN</Link>
-            <Link to="/accessories" className="hover:text-red-600 transition">ACCESSORIES</Link>
+            <Link to="/Kids" className="hover:text-red-600 transition">KIDS</Link>
           </nav>
         </div>
 
@@ -91,6 +91,7 @@ export default function Header() {
             {[
               { label: "MEN", to: "/men" },
               { label: "WOMEN", to: "/women" },
+              { label: "KIDS", to: "/Kids" },
               { label: "ACCESSORIES", to: "/accessories" },
               { label: "PLUSSIZE", to: "/plussize" },
               { label: "HEAVYDUTY", to: "/heavyduty" },
@@ -126,7 +127,7 @@ export default function Header() {
           {[
             "MEN",
             "WOMEN",
-            "PLUSSIZE",
+            "KIDS",
             "ACCESSORIES",
             "HEAVYDUTY",
             "SNEAKERS",

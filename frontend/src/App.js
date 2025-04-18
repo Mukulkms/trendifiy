@@ -4,6 +4,7 @@ import HomePage from "./pages/home"; // Import the HomePage component
 import Header from "./components/header";
 import LoginPage from "./pages/login";
 import MenClothingPage from "./pages/Menclothing";
+import Footer from "./pages/footer";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/men" element={<MenClothingPage/>}/>
       </Routes>
+      <Footer/>
     </Router>
   );
 }
