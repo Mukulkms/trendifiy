@@ -53,6 +53,13 @@ const ProductCard = ({ product }) => {
             )}
           </div>
         </Link>
+        {product.fit && (
+          <div className="mt-2">
+            <span className="inline-block bg-gray-300 rounded-full px-2 py-1 text-xs font-semibold text-gray-700">
+              {product.fit.toUpperCase()} FIT
+            </span>
+          </div>
+        )}
         {product.sizes && product.sizes.length > 0 && (
           <div className="mt-2">
             <span className="text-xs text-gray-600">Sizes:</span>
