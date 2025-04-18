@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import TopSneakersOfWeek from "./TopSneakersOfWeek";
 import MensTshirtsOfWeek from "./MensTshirtCard";
 import MultiCarouselbanner from "../components/MultiCarouselbanner";
+import Footer from "./footer";
 
 export default function HomePage() {
   const location = useLocation();
@@ -24,6 +25,7 @@ export default function HomePage() {
     <MultiCarouselbanner/>
      <TopSneakersOfWeek/>
      <MensTshirtsOfWeek/>
+     <Footer/>
     </div>
   );
 }
