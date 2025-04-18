@@ -48,43 +48,44 @@ export default function RegisterForm() {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     const payload = {
       fullname: fullName,
       email,
       mobileNumber,
       password,
+      confirmPassword: password, // ✅ backend needs this
     };
-
+  
     try {
       const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
+  
       const data = await res.json();
-
+  
       if (!res.ok || data.error) {
         setError(data.error || data.message || "Registration failed.");
         return;
       }
-
+  
       alert("🎉 Registration successful!");
-
+  
       const otpRes = await fetch("http://localhost:5000/api/auth/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mobileNumber }),
       });
-
+  
       const otpData = await otpRes.json();
-
+  
       if (!otpRes.ok || !otpData.success) {
         setError(otpData.message || "OTP sending failed. Please try logging in.");
         return;
       }
-
+  
       alert("✅ OTP sent to your mobile. Proceeding to verification...");
       navigate("/verify-otp", { state: { mobileNumber } });
     } catch (err) {
@@ -92,7 +93,7 @@ export default function RegisterForm() {
       setError("Something went wrong. Please try again later.");
     }
   };
-
+  
   return (
     <>
       <div className="mb-4">

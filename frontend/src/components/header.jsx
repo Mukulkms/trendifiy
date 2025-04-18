@@ -1,12 +1,10 @@
-import { Search, Heart, ShoppingBag, Menu,UserCircle, X } from 'lucide-react';
+// components/header.js
+import { Search, Heart, ShoppingBag, Menu, UserCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LoginModal from './modals/loginmodal';
-
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false); // modal state
 
   return (
     <div className="w-full font-sans">
@@ -27,7 +25,7 @@ export default function Header() {
         {/* Logo + Desktop Nav */}
         <div className="flex items-center gap-2 md:gap-8">
           <div className="text-xl md:text-2xl font-bold p-5 bg-indigo-100 tracking-wide text-black">
-           <Link to="/">TRENDIFY<sup>®</sup></Link>
+            <Link to="/">TRENDIFY<sup>®</sup></Link>
           </div>
 
           {/* Desktop Nav */}
@@ -58,14 +56,11 @@ export default function Header() {
             <Search className="absolute left-3 top-2.5 text-gray-500 w-4 h-4" />
           </div>
           <div className="flex gap-1 cursor-pointer hover:text-red-600 transition">
-          <UserCircle className="w-5 h-5 "/>
-          <button
-            onClick={() => setShowLoginModal(true)}
-            className="text-sm"
-            >
-            Login
-          </button>
-            </div>
+            <UserCircle className="w-5 h-5 " />
+            <Link to="/login" className="text-sm"> {/* Changed to Link */}
+              Login
+            </Link>
+          </div>
           <Heart className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />
           <Link to="/cart">
             <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />
@@ -108,15 +103,13 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setShowLoginModal(true);
-              }}
+            <Link
+              to="/login"
               className="text-left hover:text-red-600 transition"
+              onClick={() => setMobileMenuOpen(false)}
             >
               Login
-            </button>
+            </Link>
           </nav>
         </div>
       )}
@@ -144,12 +137,6 @@ export default function Header() {
           ))}
         </nav>
       </div>
-
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-      />
     </div>
   );
 }

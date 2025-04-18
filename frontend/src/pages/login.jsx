@@ -1,3 +1,4 @@
+// pages/login.js
 import React, { useEffect, useState } from "react";
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
@@ -5,7 +6,7 @@ import RegisterForm from "../components/register";
 import OTPLoginModal from "../components/modals/OTPLoginModal";
 import PasswordLoginModal from "../components/modals/PasswordLoginModal";
 
-export default function LoginPage({ closeModal }) {
+export default function LoginPage() { // Removed { closeModal } prop
   const [isLogin, setIsLogin] = useState(true);
   const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +33,6 @@ export default function LoginPage({ closeModal }) {
   }, [showModal, modalType, timer]);
 
   const navigate = useNavigate();
-
   const mobileRegex = /^[0-9]{10}$/;
 
   const handleLogin = async (e) => {
@@ -150,18 +150,18 @@ export default function LoginPage({ closeModal }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      <div className=" md:flex md:w-1/2 h-full">
+    <div className="min-h-screen w-full p-10 bg-indigo-50 flex  flex-col md:flex-row">
+      <div className="p-5 md:flex md:w-1/2 h-full">
         <img
           src={loginhero}
           alt="Trendify Banner"
-          className="w-full h-1/2 object-cover "
+          className="w-full shadow-md rounded-lg h-full object-cover " // Adjusted height to fill container
         />
       </div>
 
       <div className="flex flex-col lg:mt-20 md:mt-20 items-center w-full md:w-1/2 px-6 py-10 md:py-0">
         {" "}
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-2xl">
           <div className="flex justify-between mb-4 border-b border-gray-300">
             <button
               onClick={() => {
@@ -304,24 +304,28 @@ export default function LoginPage({ closeModal }) {
         </div>
       </div>
 
-      <OTPLoginModal
-        isOpen={showModal && modalType === "otp"}
-        onClose={() => setShowModal(false)}
-        otp={otp}
-        setOtp={setOtp}
-        timer={timer}
-        handleSubmit={handleModalLogin}
-        resendOtp={resendOtp}
-      />
+      {showModal && modalType === "otp" && (
+        <OTPLoginModal
+          isOpen={true} // It's now rendered directly on the page
+          onClose={() => setShowModal(false)}
+          otp={otp}
+          setOtp={setOtp}
+          timer={timer}
+          handleSubmit={handleModalLogin}
+          resendOtp={resendOtp}
+        />
+      )}
 
-      <PasswordLoginModal
-        isOpen={showModal && modalType === "password"}
-        onClose={() => setShowModal(false)}
-        password={password}
-        setPassword={setPassword}
-        handleSubmit={handleModalLogin}
-        mobileNumber={mobileNumber}
-      />
+      {showModal && modalType === "password" && (
+        <PasswordLoginModal
+          isOpen={true} // It's now rendered directly on the page
+          onClose={() => setShowModal(false)}
+          password={password}
+          setPassword={setPassword}
+          handleSubmit={handleModalLogin}
+          mobileNumber={mobileNumber}
+        />
+      )}
     </div>
   );
 }

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { ArrowUp } from "lucide-react";
-import LoginModal from "../components/modals/loginmodal";
 import { UserCircle } from "lucide-react";
+import { Link } from 'react-router-dom';
+
 
 const Footer = () => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const footerSections = [
     {
       title: "Customer Care",
@@ -108,9 +108,9 @@ const Footer = () => {
 
           <div className="flex gap-1 cursor-pointer hover:text-red-600 transition">
             <UserCircle className="w-5 h-5 " />
-            <button onClick={() => setShowLoginModal(true)} className="text-sm">
+            <Link to="/login" className="text-sm"> {/* Changed to Link */}
               Login
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -139,10 +139,7 @@ const Footer = () => {
       >
         <ArrowUp size={20} />
       </button>
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
-      />
+      
     </footer>
   );
 };

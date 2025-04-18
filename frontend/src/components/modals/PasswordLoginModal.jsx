@@ -33,7 +33,7 @@ export default function PasswordLoginModal({
 
       localStorage.setItem("trendify_token", data.token);
       onClose(); // close the modal
-      navigate("/home"); // 🔥 Redirect to home
+      navigate("/"); // 🔥 Redirect to home
     } catch (err) {
       console.error("Login error", err);
       // Silent fail, as requested
