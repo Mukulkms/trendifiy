@@ -1,3 +1,4 @@
+// Men's image imports
 import hoodie1 from "../assets/images/hoodie1.webp";
 import hoodie2 from "../assets/images/hoodie2.webp";
 import hoodie3 from "../assets/images/sporthoodie.webp";
@@ -7,7 +8,17 @@ import joggers from "../assets/images/joggers.webp";
 import jeans from "../assets/images/jeans.webp";
 import tshirt3 from "../assets/images/tshirt3.webp";
 
-const dummyProducts = [
+// Women's image imports
+import womenTee1 from "../assets/images/w1.jpg";
+import womenTee2 from "../assets/images/w8.jpg";
+import womenHoodie1 from "../assets/images/w2.jpg";
+import womenHoodie2 from "../assets/images/w6.jpg";
+import womenJoggers from "../assets/images/w3.jpg";
+import womenJeans from "../assets/images/w4.jpg";
+import womenleggins from "../assets/images/w7.jpg";
+import womenTee3 from "../assets/images/w5.jpg"; //
+
+const menProducts = [
   {
     _id: "1",
     name: "Casual Printed T-Shirt",
@@ -19,7 +30,8 @@ const dummyProducts = [
     category: "T-Shirt",
     color: "red",
     rating: 4,
-    discount: Math.round(((1299 - 799) / 1299) * 100), // 38%
+    gender: "men",
+    discount: Math.round(((1299 - 799) / 1299) * 100),
   },
   {
     _id: "2",
@@ -32,7 +44,8 @@ const dummyProducts = [
     category: "Jeans",
     color: "blue",
     rating: 3,
-    discount: Math.round(((1999 - 1499) / 1999) * 100), // 25%
+    gender: "men",
+    discount: Math.round(((1999 - 1499) / 1999) * 100),
   },
   {
     _id: "3",
@@ -45,7 +58,8 @@ const dummyProducts = [
     category: "Hoodie",
     color: "black",
     rating: 5,
-    discount: Math.round(((2499 - 1799) / 2499) * 100), // 28%
+    gender: "men",
+    discount: Math.round(((2499 - 1799) / 2499) * 100),
   },
   {
     _id: "4",
@@ -58,7 +72,8 @@ const dummyProducts = [
     category: "T-Shirt",
     color: "blue",
     rating: 4,
-    discount: Math.round(((799 - 499) / 799) * 100), // 38%
+    gender: "men",
+    discount: Math.round(((799 - 499) / 799) * 100),
   },
   {
     _id: "5",
@@ -71,7 +86,8 @@ const dummyProducts = [
     category: "T-Shirt",
     color: "black",
     rating: 5,
-    discount: Math.round(((1499 - 999) / 1499) * 100), // 33%
+    gender: "men",
+    discount: Math.round(((1499 - 999) / 1499) * 100),
   },
   {
     _id: "6",
@@ -84,7 +100,8 @@ const dummyProducts = [
     category: "Hoodie",
     color: "red",
     rating: 3,
-    discount: Math.round(((2499 - 1899) / 2499) * 100), // 24%
+    gender: "men",
+    discount: Math.round(((2499 - 1899) / 2499) * 100),
   },
   {
     _id: "7",
@@ -97,7 +114,8 @@ const dummyProducts = [
     category: "Joggers",
     color: "blue",
     rating: 4,
-    discount: Math.round(((1999 - 1299) / 1999) * 100), // 35%
+    gender: "men",
+    discount: Math.round(((1999 - 1299) / 1999) * 100),
   },
   {
     _id: "8",
@@ -110,8 +128,125 @@ const dummyProducts = [
     category: "Hoodie",
     color: "black",
     rating: 3,
-    discount: Math.round(((2199 - 1859) / 2199) * 100), // 15%
+    gender: "men",
+    discount: Math.round(((2199 - 1859) / 2199) * 100),
   },
 ];
 
+const womenProducts = [
+  {
+    _id: "w1",
+    name: "Floral Casual T-Shirt",
+    brand: "FemmeFit",
+    price: 899,
+    originalPrice: 1299,
+    image: womenTee1,
+    sizes: ["S", "M"],
+    category: "Tops",
+    color: "pink",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1299 - 899) / 1299) * 100),
+  },
+  {
+    _id: "w2",
+    name: "Lavender Sports Hoodie",
+    brand: "Nike",
+    price: 1699,
+    originalPrice: 2199,
+    image: womenHoodie1,
+    sizes: ["M", "L"],
+    category: "Hoodie",
+    color: "lavender",
+    rating: 5,
+    gender: "women",
+    discount: Math.round(((2199 - 1699) / 2199) * 100),
+  },
+  {
+    _id: "w3",
+    name: "Crop Fit Joggers",
+    brand: "Adidas",
+    price: 1299,
+    originalPrice: 1799,
+    image: womenJoggers,
+    sizes: ["S", "M"],
+    category: "Joggers",
+    color: "grey",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1799 - 1299) / 1799) * 100),
+  },
+  {
+    _id: "w4",
+    name: "Faded Denim Jeans",
+    brand: "Zara",
+    price: 1599,
+    originalPrice: 2299,
+    image: womenJeans,
+    sizes: ["S", "M", "L"],
+    category: "Jeans",
+    color: "blue",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((2299 - 1599) / 2299) * 100),
+  },
+  {
+    _id: "w5",
+    name: "Graphic Tee",
+    brand: "Uniqlo",
+    price: 699,
+    originalPrice: 999,
+    image: womenTee2,
+    sizes: ["XS", "S", "M"],
+    category: "Tops",
+    color: "white",
+    rating: 3,
+    gender: "women",
+    discount: Math.round(((999 - 699) / 999) * 100),
+  },
+  {
+    _id: "w6",
+    name: "Soft Knit Hoodie",
+    branch: "Forever 21",
+    price: 1499,
+    originalPrice: 1999,
+    image: womenHoodie2,
+    sizes: ["M", "L"],
+    category: "Hoodie",
+    color: "peach",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1999 - 1499) / 1999) * 100),
+  },
+  {
+    _id: "w7",
+    name: "Athleisure Leggings",
+    brand: "HRX",
+    price: 1199,
+    originalPrice: 1699,
+    image: womenleggins,
+    sizes: ["S", "M", "L"],
+    category: "Leggings",
+    color: "black",
+    rating: 5,
+    gender: "women",
+    discount: Math.round(((1699 - 1199) / 1699) * 100),
+  },
+  {
+    _id: "w8",
+    name: "Vintage Wash T-Shirt",
+    brand: "Only",
+    price: 749,
+    originalPrice: 1099,
+    image: womenTee3, // ✅ New unique image used here
+    sizes: ["M", "L"],
+    category: "Tops",
+    color: "washed grey",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1099 - 749) / 1099) * 100),
+  },
+];
+
+const dummyProducts = [...menProducts, ...womenProducts];
 export default dummyProducts;

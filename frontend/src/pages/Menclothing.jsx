@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FiFilter, FiX } from "react-icons/fi"; // Import the filter icon
+import { FiFilter, FiX } from "react-icons/fi";
 import ProductFilter from "../components/filters/ProductFilter";
 import ProductCard from "../components/ProductCard";
 import dummyProducts from "../Hooks/Products";
 
 const MenClothing = () => {
-  const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const [selectedFilters, setSelectedFilters] = useState({
@@ -18,18 +18,18 @@ const MenClothing = () => {
     discount: [],
   });
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State for sidebar toggle
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/products?category?");
+        const res = await fetch("/api/products");
         if (!res.ok) throw new Error("Failed to fetch from API");
         const data = await res.json();
-        setProducts(data);
+        setAllProducts(data);
       } catch (err) {
         console.warn("Using dummy data due to fetch error:", err.message);
-        setProducts(dummyProducts);
+        setAllProducts(dummyProducts);
       }
     };
 
@@ -37,8 +37,10 @@ const MenClothing = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = [...products];
+    // ✅ Step 1: Filter by gender
+    let filtered = allProducts.filter((p) => p.gender === "men");
 
+    // ✅ Step 2: Apply all other filters
     if (selectedFilters.category.length > 0) {
       filtered = filtered.filter((p) =>
         selectedFilters.category.includes(p.category)
@@ -47,7 +49,7 @@ const MenClothing = () => {
 
     if (selectedFilters.size.length > 0) {
       filtered = filtered.filter((p) =>
-        p.sizes.some((size) => selectedFilters.size.includes(size))
+        p.sizes?.some((size) => selectedFilters.size.includes(size))
       );
     }
 
@@ -82,7 +84,6 @@ const MenClothing = () => {
       );
     }
 
-    // Add discount filter
     if (selectedFilters.discount.length > 0) {
       filtered = filtered.filter((p) => {
         const discount = p.discount || 0;
@@ -97,11 +98,9 @@ const MenClothing = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [selectedFilters, products]);
+  }, [selectedFilters, allProducts]);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 p-4 h-[calc(100vh-80px)]">
@@ -111,7 +110,7 @@ const MenClothing = () => {
           onClick={toggleSidebar}
           className="text-xl text-gray-700 p-2 bg-gray-200 rounded-md"
         >
-          {isSidebarOpen ? <FiX /> : <FiFilter />} {/* Filter icon for opening */}
+          {isSidebarOpen ? <FiX /> : <FiFilter />}
         </button>
       </div>
 
@@ -127,7 +126,7 @@ const MenClothing = () => {
         />
       </div>
 
-      {/* Product Grid Scrollable */}
+      {/* Product Grid */}
       <div className="w-full lg:w-4/5 overflow-y-auto pr-2">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
