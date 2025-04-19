@@ -118,7 +118,7 @@ export default function LoginPage() { // Removed { closeModal } prop
         localStorage.setItem("trendify_token", data.token);
         setShowModal(false);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 100);
       } else {
         // Don't show any alert. Just stay on modal so user can retry.

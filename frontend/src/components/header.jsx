@@ -21,18 +21,18 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <div className="flex items-center justify-between mr-4  border-b">
+      <div className="flex items-center justify-between h-16 border-b px-4 md:px-6"> {/* Increased height and padding */}
         {/* Logo + Desktop Nav */}
-        <div className="flex items-center gap-2 md:gap-8">
-          <div className="text-xl md:text-2xl font-bold p-5 bg-indigo-100 tracking-wide text-black">
-            <Link to="/">TRENDIFY<sup>®</sup></Link>
+        <div className="flex items-center gap-2 md:gap-6"> {/* Reduced gap */}
+          <div className="text-xl md:text-2xl font-bold  bg-white tracking-wide text-black"> {/* Reduced padding */}
+            <Link to="/">Trendify<sup>®</sup></Link>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-5 md:gap-8 text-sm font-semibold">
-            <Link to="/men" className="hover:text-red-600 transition">MEN</Link>
-            <Link to="/women" className="hover:text-red-600 transition">WOMEN</Link>
-            <Link to="/Kids" className="hover:text-red-600 transition">KIDS</Link>
+          <nav className="hidden md:flex gap-4 text-sm font-semibold"> {/* Reduced gap */}
+            <Link to="/men" className="text-indigo-500  hover:text-indigo-800">MEN</Link>
+            <Link to="/women" className="text-indigo-500 hover:text-indigo-800">WOMEN</Link>
+            <Link to="/Kids" className="text-indigo-500 hover:text-indigo-800">KIDS</Link>
           </nav>
         </div>
 
@@ -46,24 +46,24 @@ export default function Header() {
         </div>
 
         {/* Search + Icons */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3"> 
           <div className="relative">
             <input
               type="text"
               placeholder="Search by Products"
-              className="pl-10 pr-4 py-2 border rounded-md text-sm w-48 md:w-64 bg-gray-100 focus:outline-slate-700-500"
+              className="pl-8 pr-2 py-1 border rounded-md text-sm w-40 md:w-56 focus:outline-slate-700"
             />
-            <Search className="absolute left-3 top-2.5 text-gray-500 w-4 h-4" />
+            <Search className="absolute left-2 top-1.5 text-gray-500 w-4 h-4" />
           </div>
-          <div className="flex gap-1 cursor-pointer hover:text-red-600 transition">
-            <UserCircle className="w-5 h-5 " />
-            <Link to="/login" className="text-sm"> {/* Changed to Link */}
+          <div className="flex gap-1 cursor-pointer hover:text-indigo-500 transition">
+            <UserCircle className="w-6 h-6" />
+            <Link to="/login" className="text-md">
               Login
             </Link>
           </div>
-          <Heart className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />
+          <Heart className="w-6 h-6 cursor-pointer hover:text-indigo-500 transition" /> {/* Reduced icon size */}
           <Link to="/cart">
-            <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-red-600 transition" />
+            <ShoppingBag className="w-6 h-6 cursor-pointer hover:text-indigo-500 transition" /> {/* Reduced icon size */}
           </Link>
         </div>
       </div>
@@ -72,32 +72,30 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden px-4 pb-4 border-b animate-slide-down">
           {/* Mobile Search */}
-          <div className="relative mb-4">
+          <div className="relative mb-3">
             <input
               type="text"
               placeholder="Search by Products"
-              className="pl-10 pr-4 py-2 border rounded-md text-sm w-full bg-gray-100"
+              className="pl-8 pr-2 py-1 border rounded-md text-sm w-full bg-gray-100" 
             />
-            <Search className="absolute left-3 top-2.5 text-gray-500 w-4 h-4" />
+            <Search className="absolute left-2 top-1.5 text-gray-500 w-4 h-4" />
           </div>
 
           {/* Mobile Nav */}
-          <nav className="flex flex-col gap-2 text-sm font-semibold">
+          <nav className="flex flex-col gap-1 text-sm font-semibold"> 
             {[
-              { label: "MEN", to: "/men" },
-              { label: "WOMEN", to: "/women" },
-              { label: "KIDS", to: "/Kids" },
-              { label: "ACCESSORIES", to: "/accessories" },
-              { label: "PLUSSIZE", to: "/plussize" },
-              { label: "HEAVYDUTY", to: "/heavyduty" },
-              { label: "SNEAKERS", to: "/sneakers" },
-              { label: "CUSTOMIZATION", to: "/customization" },
-              { label: "NEW ARRIVAL", to: "/new-arrivals" },
+              { label: "Men", to: "/men" },
+              { label: "Women", to: "/women" },
+              { label: "Kids", to: "/Kids" },
+              { label: "Accessories", to: "/accessories" },
+              { label: "Heavy duty", to: "/heavyduty" },
+              { label: "sneakers", to: "/sneakers" },
+              { label: "New arrival", to: "/new-arrivals" },
             ].map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className="hover:text-red-600 transition"
+                className="hover:text-indigo-500 py-1" 
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
@@ -105,7 +103,7 @@ export default function Header() {
             ))}
             <Link
               to="/login"
-              className="text-left hover:text-red-600 transition"
+              className="text-left hover:text-indigo-500 py-1" 
               onClick={() => setMobileMenuOpen(false)}
             >
               Login
@@ -115,22 +113,21 @@ export default function Header() {
       )}
 
       {/* Sub Navigation - Desktop Only */}
-      <div className="hidden md:flex bg-red-500 text-white text-center py-2 px-5">
-        <nav className="flex justify-center gap-6 text-sm font-semibold w-full">
+      <div className="hidden md:flex bg-slate-900 text-white text-center p-5 border-b"> {/* Changed background and text color, reduced padding, added bottom border */}
+        <nav className="flex justify-center gap-8 text-md font-semibold w-full"> {/* Reduced gap */}
           {[
-            "MEN",
-            "WOMEN",
-            "KIDS",
-            "ACCESSORIES",
-            "HEAVYDUTY",
-            "SNEAKERS",
-            "CUSTOMIZATION",
-            "NEW ARRIVAL"
+            "Men",
+            "Women",
+            "Kids",
+            "Accessories",
+            "Heavy duty",
+            "Sneakers",
+            "New Arrival"
           ].map((label) => (
             <Link
               key={label}
               to={`/${label.toLowerCase().replace(" ", "-")}`}
-              className="hover:text-indigo-200 transition"
+              className=" hover:text-gray-400 transition"
             >
               {label}
             </Link>

@@ -4,6 +4,9 @@ import TopSneakersOfWeek from "./TopSneakersOfWeek";
 import MensTshirtsOfWeek from "./MensTshirtCard";
 import MultiCarouselbanner from "../components/MultiCarouselbanner";
 import NewArrivals from "./NewArrival";
+import Featurecard from "../components/Featurecard";
+import CategorySection from "./CategorySection";
+import CustomerReviewsCarousel from "../components/Customerreview";
 
 
 export default function HomePage() {
@@ -24,9 +27,12 @@ export default function HomePage() {
   return (
     <div>
      <MultiCarouselbanner/>
+     <Featurecard/>
      <TopSneakersOfWeek/>
+     <CategorySection/>
      <MensTshirtsOfWeek/>
      <NewArrivals/>
+     <CustomerReviewsCarousel/>
     </div>
   );
 }

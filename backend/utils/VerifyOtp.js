@@ -49,7 +49,7 @@ export default function VerifyOtp() {
       }
 
       alert("✅ OTP verified successfully!");
-      navigate("/dashboard"); // Redirect to the dashboard or another page
+      navigate("/"); // Redirect to the dashboard or another page
     } catch (err) {
       console.error("❌ Error in OTP verification:", err);
       setError("Something went wrong. Please try again later.");

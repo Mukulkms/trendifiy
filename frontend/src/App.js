@@ -5,7 +5,7 @@ import Header from "./components/header";
 import LoginPage from "./pages/login";
 import MenClothingPage from "./pages/Menclothing";
 import Womenclothing from "./pages/Womenclothing";
-import Footer from "./pages/footer";
+import Footer from "./components/footer";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/men" element={<MenClothingPage/>}/>
         <Route path="/women" element={<Womenclothing/>}/>
       </Routes>
-      <Footer/>
+     <Footer/>
     </Router>
   );
 }
