@@ -1,14 +1,14 @@
 const bcrypt = require("bcryptjs");
-const generateToken = require("../utils/generateToken");
+const generateToken = require("../utils/generateToken"); // You might have a helper function
 const User = require("../models/User");
 const otpGenerator = require("otp-generator");
 const jwt = require("jsonwebtoken");
 
-
 const sendOTP = async (req, res) => {
   const { mobileNumber } = req.body;
 
-  if (!mobileNumber) return res.status(400).json({ message: "Mobile number required" });
+  if (!mobileNumber)
+    return res.status(400).json({ message: "Mobile number required" });
 
   const user = await User.findOne({ mobileNumber });
   if (!user) return res.status(404).json({ message: "User not registered" });
@@ -31,7 +31,9 @@ const verifyOTP = async (req, res) => {
   const { mobileNumber, otp } = req.body;
 
   if (!mobileNumber || !otp) {
-    return res.status(400).json({ message: "Mobile number and OTP required" });
+    return res
+      .status(400)
+      .json({ message: "Mobile number and OTP required" });
   }
 
   const user = await User.findOne({ mobileNumber });
@@ -50,11 +52,27 @@ const verifyOTP = async (req, res) => {
   user.otpExpiresAt = null;
   await user.save();
 
-  const token = jwt.sign({ id: user._id, mobileNumber: user.mobileNumber }, "your_jwt_secret", {
+  // Include fullname in the JWT payload
+  const payload = {
+    id: user._id,
+    fullname: user.fullname, // <------------------ ADD FULLNAME HERE
+    mobileNumber: user.mobileNumber,
+    email: user.email, // Include email
+    // Add other user data as needed
+  };
+  const token = jwt.sign(payload, "your_jwt_secret", {
     expiresIn: "1d",
   });
 
-  res.json({ token, user });
+  res.json({
+    token,
+    user: {
+      _id: user._id,
+      fullname: user.fullname, // Include fullname in the response
+      email: user.email,
+      mobileNumber: user.mobileNumber,
+    },
+  });
 };
 
 const register = async (req, res) => {
@@ -81,12 +99,16 @@ const register = async (req, res) => {
     // 3. Check for duplicates
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(409).json({ error: "Email already registered. Please login." });
+      return res
+        .status(409)
+        .json({ error: "Email already registered. Please login." });
     }
 
     const existingMobile = await User.findOne({ mobileNumber });
     if (existingMobile) {
-      return res.status(409).json({ error: "Mobile number already registered. Please login." });
+      return res
+        .status(409)
+        .json({ error: "Mobile number already registered. Please login." });
     }
 
     // 4. Generate OTP
@@ -113,13 +135,14 @@ const register = async (req, res) => {
       message: "User registered. OTP sent for verification.",
       otpSent: true,
     });
-
   } catch (err) {
     if (err.code === 11000) {
       if (err.keyPattern?.email) {
         return res.status(409).json({ error: "Email already exists." });
       } else if (err.keyPattern?.mobileNumber) {
-        return res.status(409).json({ error: "Mobile number already exists." });
+        return res
+          .status(409)
+          .json({ error: "Mobile number already exists." });
       }
     }
 
@@ -127,8 +150,6 @@ const register = async (req, res) => {
     res.status(500).json({ error: "Server error during registration." });
   }
 };
-
-
 
 const login = async (req, res) => {
   try {
@@ -142,14 +163,27 @@ const login = async (req, res) => {
     if (password) {
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
-        return res.status(401).json({ error: "Invalid mobile number or password" });
+        return res
+          .status(401)
+          .json({ error: "Invalid mobile number or password" });
       }
 
-      return res.json({
-        token: generateToken(user._id),
+      // Include fullname in the JWT payload
+      const payload = {
+        id: user._id,
+        fullname: user.fullname, // <------------------ ADD FULLNAME HERE
+        email: user.email,
+        mobileNumber: user.mobileNumber,
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
+      };
+      const token = jwt.sign(payload, "your_jwt_secret");
+
+      res.json({
+        token,
         user: {
           _id: user._id,
-          fullname: user.fullname,
+          fullname: user.fullname, // Include fullname in the response
           email: user.email,
           mobileNumber: user.mobileNumber,
         },
@@ -198,7 +232,6 @@ const checkUserLoginMethods = async (req, res) => {
 
   return res.json({ exists: true, loginMethods });
 };
-
 
 // ✅ CommonJS export
 module.exports = {

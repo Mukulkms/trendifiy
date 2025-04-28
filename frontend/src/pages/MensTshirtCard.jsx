@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -8,7 +8,7 @@ import menstshirt2 from '../assets/images/alexander-london-KL8EGoKDNcQ-unsplash.
 import menstshirt3 from '../assets/images/mehrab-zahedbeigi-IeUiAuDK0XY-unsplash.jpg';
 import menstshirt4 from '../assets/images/jusdevoyage-nvZ4NubOIZE-unsplash.jpg';
 
-// ✅ Sample Data
+// ✅ Data
 const tshirtData = [
   {
     id: 1,
@@ -60,36 +60,24 @@ const tshirtData = [
   },
 ];
 
-// ✅ Responsive Breakpoints
+// ✅ Responsive breakpoints
 const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 1600 },
-    items: 4,  // Show 4 items on large screens
-  },
-  desktop: {
-    breakpoint: { max: 1600, min: 1024 },
-    items: 4,  // Show 4 items on desktops
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 640 },
-    items: 2,  // Show 2 items on tablets
-  },
-  mobile: {
-    breakpoint: { max: 640, min: 0 },
-    items: 1,  // Show 1 item on mobile
-  },
+  superLargeDesktop: { breakpoint: { max: 4000, min: 1600 }, items: 4 },
+  desktop: { breakpoint: { max: 1600, min: 1024 }, items: 4 },
+  tablet: { breakpoint: { max: 1024, min: 640 }, items: 2 },
+  mobile: { breakpoint: { max: 640, min: 0 }, items: 1 },
 };
 
-// ✅ Reusable Card (memoized for performance)
-const MensTshirtCard = React.memo(({ tshirt }) => (
-  <div className="bg-white shadow-md hover:shadow-lg transition-transform duration-300 transform-gpu hover:scale-105 mx-2 overflow-hidden">
+// ✅ Memoized Card Component
+const MensTshirtCard = memo(({ tshirt }) => (
+  <div className="bg-white shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300 mx-2 overflow-hidden rounded-lg">
     <Link to={tshirt.checkoutUrl} className="block">
       <img
         src={tshirt.imageSrc}
         alt={tshirt.name}
         className="w-full object-cover"
         style={{ aspectRatio: '3 / 4' }}
-        loading="lazy"  // Lazy loading for images
+        loading="lazy"
       />
     </Link>
     <div className="p-4">
@@ -117,17 +105,14 @@ const MensTshirtsOfWeek = () => {
 
         <Carousel
           responsive={responsive}
-          infinite={false}         // Disable infinite scrolling
           swipeable
           draggable
           arrows
-          autoPlay={false}         // Disable auto play
+          infinite={false}
           keyBoardControl
-          lazyLoad="ondemand"      // Lazy load on demand
+          transitionDuration={500}
           containerClass="carousel-container"
           itemClass="px-2"
-          transitionDuration={500} // Set the transition speed for better smoothness
-          autoPlaySpeed={3000}     // Optional: adjust autoplay speed if needed
         >
           {tshirtsList.map((tshirt) => (
             <MensTshirtCard key={tshirt.id} tshirt={tshirt} />

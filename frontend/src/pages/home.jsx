@@ -8,7 +8,6 @@ import Featurecard from "../components/Featurecard";
 import CategorySection from "./CategorySection";
 import CustomerReviewsCarousel from "../components/Customerreview";
 
-
 export default function HomePage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,22 +16,22 @@ export default function HomePage() {
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get("token");
 
-    if (token) {
+    if (token && !localStorage.getItem("trendify_token")) {
       localStorage.setItem("trendify_token", token);
-      // Clean up URL
+      // Clean up the token from the URL after setting it
       navigate("/home", { replace: true });
     }
   }, [location, navigate]);
 
   return (
-    <div>
-     <MultiCarouselbanner/>
-     <Featurecard/>
-     <TopSneakersOfWeek/>
-     <CategorySection/>
-     <MensTshirtsOfWeek/>
-     <NewArrivals/>
-     <CustomerReviewsCarousel/>
-    </div>
+    <>
+      <MultiCarouselbanner />
+      <Featurecard />
+      <TopSneakersOfWeek />
+      <CategorySection />
+      <MensTshirtsOfWeek />
+      <NewArrivals />
+      <CustomerReviewsCarousel />
+    </>
   );
 }

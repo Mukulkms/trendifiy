@@ -1,4 +1,3 @@
-// components/MultiCarousel.jsx
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -42,25 +41,13 @@ const items = [
 ];
 
 const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 1,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 1,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 1,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
+  superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 1 },
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
+  tablet: { breakpoint: { max: 1024, min: 464 }, items: 1 },
+  mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
 };
 
-export default function MultiCarouselbanner() {
+const MultiCarouselbanner = () => {
   return (
     <div className="w-full h-auto overflow-hidden relative">
       <Carousel
@@ -73,17 +60,22 @@ export default function MultiCarouselbanner() {
         containerClass="carousel-container"
         itemClass="px-0"
         dotListClass="custom-dot-list-style"
-        removeArrowOnDeviceType={["tablet", "mobile", "desktop", "superLargeDesktop"]}
+        removeArrowOnDeviceType={[
+          "tablet",
+          "mobile",
+          "desktop",
+          "superLargeDesktop",
+        ]}
       >
         {items.map((item, index) => (
           <div key={index} className="relative w-full">
             <img
               src={item.img}
               alt={`banner-${index + 1}`}
+              loading="lazy"
               className="w-full h-auto object-cover"
-              style={{ maxHeight: '80vh' }} // Adjusted max height for better visual balance
+              style={{ maxHeight: "80vh" }}
             />
-            {/* Improved Text and Button Overlay */}
             <div className="absolute top-1/2 left-8 md:left-16 lg:left-24 transform -translate-y-1/2 text-left text-white">
               <h2 className="text-3xl md:text-4xl lg:text-6xl mb-2 md:mb-3 leading-tight">
                 {item.title}
@@ -100,4 +92,6 @@ export default function MultiCarouselbanner() {
       </Carousel>
     </div>
   );
-}
+};
+
+export default React.memo(MultiCarouselbanner);

@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-//  Images
+
+// Images (keep these outside)
 import men1 from '../assets/images/n1.jpg';
 import men2 from '../assets/images/n2.jpg';
 import women1 from '../assets/images/n3.jpg';
@@ -12,7 +13,8 @@ import shoes2 from '../assets/images/the-dk-photography-NUoPWImmjCU-unsplash.jpg
 import baby1 from '../assets/images/n7.jpg';
 import baby2 from '../assets/images/n6.jpg';
 
-const newArrivalsData = [
+// ✅ Static array outside component
+const STATIC_NEW_ARRIVALS_DATA = [
   { id: 1, name: 'Lee Cooper: Black T-Shirt', category: 'Men', price: 1499, imageSrc: men1, checkoutUrl: '/checkout/men/1' },
   { id: 2, name: 'RareRabbit: Cheetah Shirt Classic Fit', category: 'Men', price: 1699, imageSrc: men2, checkoutUrl: '/checkout/men/2' },
   { id: 3, name: 'Broken Saints: Black t-shirt', category: 'Women', price: 1999, imageSrc: women1, checkoutUrl: '/checkout/women/1' },
@@ -23,22 +25,24 @@ const newArrivalsData = [
   { id: 8, name: 'DNMX: Soft Onesie', category: 'Baby', price: 199, imageSrc: baby2, checkoutUrl: '/checkout/baby/2' },
 ];
 
-//  Responsive Breakpoints for Carousel
+// ✅ Responsive settings
 const responsive = {
-    superLargeDesktop: { breakpoint: { max: 4000, min: 1600 }, items: 4 },
-    desktop: { breakpoint: { max: 1600, min: 1024 }, items: 4 },
-    tablet: { breakpoint: { max: 1024, min: 640 }, items: 2 },
-    mobile: { breakpoint: { max: 640, min: 0 }, items: 1 },
-  };
-  
-  const NewArrivalsCard = React.memo(({ item }) => (
-    <div className="bg-white shadow-md hover:shadow-lg transition-transform duration-300 transform-gpu hover:scale-105 mx-2 overflow-hidden">
+  superLargeDesktop: { breakpoint: { max: 4000, min: 1600 }, items: 4 },
+  desktop: { breakpoint: { max: 1600, min: 1024 }, items: 4 },
+  tablet: { breakpoint: { max: 1024, min: 640 }, items: 2 },
+  mobile: { breakpoint: { max: 640, min: 0 }, items: 1 },
+};
+
+// ✅ Memoized Card
+const NewArrivalCard = React.memo(({ item }) => {
+  return (
+    <div className="bg-white shadow-md hover:shadow-lg transition-transform duration-300 transform-gpu hover:scale-105 mx-2 overflow-hidden rounded-lg">
       <Link to={item.checkoutUrl} className="block">
         <img
           src={item.imageSrc}
-          alt={item.name}
+          alt={item.name || 'New Arrival'}
           className="w-full object-cover"
-          style={{ aspectRatio: '3 / 4' }}
+          style={{ aspectRatio: '3/4' }}
           loading="lazy"
         />
       </Link>
@@ -52,36 +56,40 @@ const responsive = {
         <p className="text-lg font-bold text-gray-900 mt-1">₹{item.price}</p>
       </div>
     </div>
-  ));
-  
-  const NewArrivals = () => {
-    const data = useMemo(() => newArrivalsData, []);
-  
-    return (
-      <section className="bg-gray-100 py-12 font-sans">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
-            New Arrivals
-          </h2>
-          <Carousel
-            responsive={responsive}
-            infinite={false}
-            swipeable
-            draggable
-            arrows
-            autoPlay={false}
-            keyBoardControl
-            lazyLoad="ondemand"
-            containerClass="carousel-container"
-            itemClass="px-2"
-          >
-            {data.map((item) => (
-              <NewArrivalsCard key={item.id} item={item} />
-            ))}
-          </Carousel>
-        </div>
-      </section>
-    );
-  };
-  
-  export default NewArrivals;
+  );
+});
+
+// ✅ Main Component
+const NewArrivals = () => {
+  // useMemo is fine now but technically not needed anymore because data is static
+  const arrivalsList = useMemo(() => STATIC_NEW_ARRIVALS_DATA, []);
+
+  return (
+    <section className="bg-gray-100 py-12 font-sans">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+          New Arrivals
+        </h2>
+
+        <Carousel
+          responsive={responsive}
+          infinite={false}
+          swipeable
+          draggable
+          arrows
+          autoPlay={false}
+          keyBoardControl
+          containerClass="carousel-container"
+          itemClass="px-2"
+          transitionDuration={500}
+        >
+          {arrivalsList.map((item) => (
+            <NewArrivalCard key={item.id} item={item} />
+          ))}
+        </Carousel>
+      </div>
+    </section>
+  );
+};
+
+export default NewArrivals;

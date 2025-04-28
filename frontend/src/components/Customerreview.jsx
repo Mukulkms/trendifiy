@@ -1,7 +1,46 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { FaStar } from 'react-icons/fa';
+
+const CustomerReviewCard = memo(({ review }) => {
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <FaStar
+          key={i}
+          className={`inline-block mr-1 ${i < rating ? 'text-yellow-500' : 'text-gray-300'}`}
+        />
+      );
+    }
+    return stars;
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between mx-2">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">{review.category}</h3>
+        <div className="mb-2">{renderStars(review.rating)}</div>
+        <p className="text-gray-600 italic mb-4">{review.comment}</p>
+      </div>
+      <div className="flex items-center mt-4">
+        <div className="rounded-full overflow-hidden w-10 h-10 mr-3">
+          <img
+            src={review.customerImage}
+            alt={review.customerName}
+            className="w-full h-full object-cover"
+            loading="lazy" // Lazy load the images
+          />
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-gray-800">{review.customerName}</p>
+          <p className="text-xs text-gray-500">{review.customerTitle}</p>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 const CustomerReviewsCarousel = () => {
   const reviews = [
@@ -62,49 +101,20 @@ const CustomerReviewsCarousel = () => {
     },
   };
 
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <FaStar
-          key={i}
-          className={`inline-block mr-1 ${i < rating ? 'text-yellow-500' : 'text-gray-300'}`}
-        />
-      );
-    }
-    return stars;
-  };
-
   return (
     <div className="bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl  text-gray-800 text-center mb-2">Customers Review</h2>
+        <h2 className="text-3xl text-gray-800 text-center mb-2">Customers Review</h2>
         <p className="text-center text-gray-500 mb-8">Share information about your brand with your customers.</p>
-        <Carousel responsive={responsive} infinite autoPlay arrows={false} className="pb-8">
-          {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between mx-2"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">{review.category}</h3>
-                <div className="mb-2">{renderStars(review.rating)}</div>
-                <p className="text-gray-600 italic mb-4">{review.comment}</p>
-              </div>
-              <div className="flex items-center mt-4">
-                <div className="rounded-full overflow-hidden w-10 h-10 mr-3">
-                  <img
-                    src={review.customerImage}
-                    alt={review.customerName}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-800">{review.customerName}</p>
-                  <p className="text-xs text-gray-500">{review.customerTitle}</p>
-                </div>
-              </div>
-            </div>
+        <Carousel
+          responsive={responsive}
+          infinite
+          autoPlay
+          arrows={false}
+          className="pb-8"
+        >
+          {reviews.map((review) => (
+            <CustomerReviewCard key={review.customerName} review={review} />
           ))}
         </Carousel>
       </div>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Auth/AuthContext";
 
 export default function PasswordLoginModal({
   isOpen,
@@ -9,6 +10,7 @@ export default function PasswordLoginModal({
   mobileNumber,
 }) {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   if (!isOpen) return null;
 
@@ -25,18 +27,22 @@ export default function PasswordLoginModal({
 
       const data = await res.json();
 
-      if (!res.ok || !data.token) {
-        // Just log the error, no alerts or toasts
+      if (!res.ok || !data.token || !data.user) {
         console.warn("Login failed:", data.message || "Unknown error");
         return;
       }
 
       localStorage.setItem("trendify_token", data.token);
-      onClose(); // close the modal
-      navigate("/"); // 🔥 Redirect to home
+      login(data.user, data.token);
+      onClose();
+      // Explicitly reset the dropdown state (if Header is already mounted)
+      // This relies on the Header's state being independent and reset on its own renders.
+      // A more robust solution might involve a state management approach if components need to directly communicate state.
+      setTimeout(() => {
+        navigate("/");
+      }, 100);
     } catch (err) {
       console.error("Login error", err);
-      // Silent fail, as requested
     }
   };
 

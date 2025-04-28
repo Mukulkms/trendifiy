@@ -1,12 +1,13 @@
 // pages/login.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react"; // Import useContext
 import loginhero from "../assets/images/loginbanner.jpg";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/register";
 import OTPLoginModal from "../components/modals/OTPLoginModal";
 import PasswordLoginModal from "../components/modals/PasswordLoginModal";
+import { AuthContext } from "../components/Auth/AuthContext"; // Import AuthContext
 
-export default function LoginPage() { // Removed { closeModal } prop
+export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
@@ -18,6 +19,9 @@ export default function LoginPage() { // Removed { closeModal } prop
   const [password, setPassword] = useState("");
   const [timer, setTimer] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useContext(AuthContext); // Get the login function from context
+  const navigate = useNavigate();
+  const mobileRegex = /^[0-9]{10}$/;
 
   // ⏳ Timer countdown effect
   useEffect(() => {
@@ -31,9 +35,6 @@ export default function LoginPage() { // Removed { closeModal } prop
 
     return () => clearInterval(interval);
   }, [showModal, modalType, timer]);
-
-  const navigate = useNavigate();
-  const mobileRegex = /^[0-9]{10}$/;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -114,19 +115,19 @@ export default function LoginPage() { // Removed { closeModal } prop
 
       const data = await res.json();
 
-      if (data.token) {
+      if (data.token && data.user) {
+        console.log("LoginPage - Calling login with:", data.user, data.token); // <------------------ ADD THIS
         localStorage.setItem("trendify_token", data.token);
+        login(data.user, data.token);
         setShowModal(false);
         setTimeout(() => {
           navigate("/");
         }, 100);
       } else {
-        // Don't show any alert. Just stay on modal so user can retry.
         console.warn("Login failed:", data.message);
       }
     } catch (err) {
       console.error("Error during login:", err);
-      // Silently fail
     } finally {
       setIsLoading(false);
     }
@@ -298,8 +299,8 @@ export default function LoginPage() { // Removed { closeModal } prop
           </div>
 
           <p className="text-xs text-gray-400 mt-6 text-center">
-            By creating an account or logging in, you agree to Trendify’s Terms
-            & Conditions and Privacy Policy.
+            By creating an account or logging in, you agree to Trendify’s Terms &
+            Conditions and Privacy Policy.
           </p>
         </div>
       </div>
