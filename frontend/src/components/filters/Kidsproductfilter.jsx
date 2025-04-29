@@ -1,25 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faTag, faStar, faPalette, faRulerHorizontal, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faTag, faStar, faPalette, faRulerHorizontal, faFilter, faChild } from '@fortawesome/free-solid-svg-icons';
 import { faShop } from '@fortawesome/free-solid-svg-icons';
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
-const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
+const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
   const [openFilters, setOpenFilters] = useState({});
   const containerRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState('none');
 
   useEffect(() => {
     const updateMaxHeight = () => {
-      if (containerRef.current) {
-        // Get the height of the parent container
-        const parentHeight = containerRef.current.parentElement?.offsetHeight || window.innerHeight;
-        // Subtract a value (e.g., 120px) to leave space for other elements.  Adjust as needed.
-        const calculatedMaxHeight = parentHeight - 120;
-        setMaxHeight(calculatedMaxHeight > 0 ? `${calculatedMaxHeight}px` : 'none');
-      } else {
-        setMaxHeight('none');
-      }
+        if (containerRef.current) {
+            // Get the height of the parent container
+            const parentHeight = containerRef.current.parentElement?.offsetHeight || window.innerHeight;
+            // Subtract some value (e.g., 120px) to leave space for other elements
+            const calculatedMaxHeight = parentHeight - 120;
+            setMaxHeight(calculatedMaxHeight > 0 ? `${calculatedMaxHeight}px` : 'none');
+        } else {
+          setMaxHeight('none');
+        }
     };
 
     updateMaxHeight();
@@ -30,17 +30,29 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
     };
   }, []);
 
+
   const filterData = [
+    {
+      name: "gender",
+      title: "Gender",
+      icon: <FontAwesomeIcon icon={faChild} className="mr-2 text-gray-500" />,
+      options: [
+        { label: "Boys", value: "boys" },
+        { label: "Girls", value: "girls" },
+      ],
+    },
     {
       name: "category",
       title: "Category",
       icon: <FontAwesomeIcon icon={faFilter} className="mr-2 text-gray-500" />,
       options: [
         { label: "T-Shirt", value: "T-Shirt" },
+        { label: "Dress", value: "Dress" },
+        { label: "Jeans", value: "Jeans" },
         { label: "Shirt", value: "Shirt" },
+        { label: "Top", value: "Top" },
+        { label: "Shorts", value: "Shorts" },
         { label: "Hoodie", value: "Hoodie" },
-        { label: "Jackets", value: "Jackets" },
-        { label: "Joggers", value: "Joggers" },
       ],
     },
     {
@@ -48,10 +60,9 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
       title: "Size",
       icon: <FontAwesomeIcon icon={faRulerHorizontal} className="mr-2 text-gray-500" />,
       options: [
-        { label: "S", value: "S" },
-        { label: "M", value: "M" },
-        { label: "L", value: "L" },
-        { label: "XL", value: "XL" },
+        { label: "2-3Y", value: "2-3Y" },
+        { label: "4-5Y", value: "4-5Y" },
+        { label: "6-7Y", value: "6-7Y" },
       ],
     },
     {
@@ -63,6 +74,12 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
         { label: "Blue", value: "blue", color: "bg-blue-500" },
         { label: "Black", value: "black", color: "bg-black" },
         { label: "White", value: "white", color: "bg-white border border-gray-300" },
+        { label: "Yellow", value: "yellow", color: "bg-yellow-400" },
+        { label: "Green", value: "green", color: "bg-green-500" },
+        { label: "Grey", value: "grey", color: "bg-gray-400" },
+        { label: "Lavender", value: "lavender", color: "bg-purple-300"},
+        { label: "Peach", value: "peach", color: "bg-orange-200"},
+        { label: "Washed Grey", value: "washed grey", color: "bg-gray-300"}
       ],
     },
     {
@@ -70,10 +87,10 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
       title: "Price",
       icon: <FontAwesomeIcon icon={faIndianRupeeSign} className="mr-2 text-gray-500" />,
       options: [
-        { label: "Under ₹500", value: "Under ₹500" },
-        { label: "₹500 - ₹1000", value: "₹500 - ₹1000" },
-        { label: "₹1000 - ₹2000", value: "₹1000 - ₹2000" },
-        { label: "Above ₹2000", value: "Above ₹2000" },
+        { label: "Under ₹300", value: "Under ₹300" },
+        { label: "₹300 - ₹600", value: "₹300 - ₹600" },
+        { label: "₹600 - ₹1000", value: "₹600 - ₹1000" },
+        { label: "Above ₹1000", value: "Above ₹1000" },
       ],
     },
     {
@@ -81,13 +98,14 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters }) => {
       title: "Brands",
       icon: <FontAwesomeIcon icon={faShop} className="mr-2 text-gray-500" />,
       options: [
-        { label: "UrbanEdge", value: "UrbanEdge" },
-        { label: "DenimFlex", value: "DenimFlex" },
-        { label: "ChillWear", value: "ChillWear" },
-        { label: "CottonCrew", value: "CottonCrew" },
-        { label: "Nike", value: "Nike" },
-        { label: "Reebok", value: "Reebok" },
-        { label: "Puma", value: "Puma" },
+        { label: "FunKidz", value: "FunKidz" },
+        { label: "CuteCuts", value: "CuteCuts" },
+        { label: "TinyTrend", value: "TinyTrend" },
+        { label: "SmartKid", value: "SmartKid" },
+        { label: "Style Sprouts", value: "Style Sprouts" },
+        { label: "PlayTime", value: "PlayTime" },
+        { label: "CozyKids", value: "CozyKids" },
+        { label: "SweetPea", value: "SweetPea" },
       ],
     },
     {

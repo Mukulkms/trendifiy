@@ -7,6 +7,7 @@ import LoginPage from './pages/login';
 import MenClothingPage from './pages/Menclothing';
 import Womenclothing from './pages/Womenclothing';
 import Footer from './components/footer';
+import KidsClothing from './pages/KidsClothing';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/men" element={<MenClothingPage />} />
           <Route path="/women" element={<Womenclothing />} />
+          <Route path="/kids" element={<KidsClothing/>} />
         </Routes>
         <Footer />
       </AuthProvider>
