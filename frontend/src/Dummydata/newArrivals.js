@@ -1,0 +1,193 @@
+// New Arrivals image imports (replace with actual image paths)
+import menJacket from "../assets/images/men-jacket.jpg";
+import menShirt1 from "../assets/images/men-shirt.jpg";
+import menJeans1 from "../assets/images/men-jeans.jpg";
+import menHoodie1 from "../assets/images/men-hoodie.jpg";
+
+import womenTop1 from "../assets/images/women-top.jpg";
+import womenblazer from "../assets/images/women-blazer.jpg";
+import womenDress from "../assets/images/women-dress.jpg";
+import womenskirt from "../assets/images/women-skirt.jpg";
+
+import boysJacket1 from "../assets/images/kids-jacket.jpg";
+import boysSet1 from "../assets/images/boys-set.jpg";
+import girlsSkirtSet1 from "../assets/images/girls-set.jpg";
+import girlsFrock1 from "../assets/images/girls-frock.jpg";
+
+const newArrivals = [
+  // ----- MEN -----
+  {
+    _id: "n101",
+    name: "Men's Jacket",
+    brand: "UrbanEdge",
+    price: 699,
+    originalPrice: 999,
+    image: menJacket,
+    sizes: ["S", "M", "L", "XL"],
+    category: "Jacket",
+    color: "black",
+    rating: 4,
+    gender: "men",
+    discount: Math.round(((999 - 699) / 999) * 100),
+  },
+  {
+    _id: "n102",
+    name: "Men's Slim Fit Shirt",
+    brand: "Rare Rabbit",
+    price: 1199,
+    originalPrice: 1599,
+    image: menShirt1,
+    sizes: ["M", "L", "XL"],
+    category: "Shirt",
+    color: "blue",
+    rating: 5,
+    gender: "men",
+    discount: Math.round(((1599 - 1199) / 1599) * 100),
+  },
+  {
+    _id: "n103",
+    name: "Men's Regular Fit Jeans",
+    brand: "Levis",
+    price: 1499,
+    originalPrice: 1899,
+    image: menJeans1,
+    sizes: ["M", "L", "XL", "S"],
+    category: "Jeans",
+    color: "blue",
+    rating: 4,
+    gender: "men",
+    discount: Math.round(((1899 - 1499) / 1899) * 100),
+  },
+  {
+    _id: "n104",
+    name: "Men's Pullover Hoodie",
+    brand: "DNMX",
+    price: 1299,
+    originalPrice: 1799,
+    image: menHoodie1,
+    sizes: ["M", "L", "XL"," S"],
+    category: "Hoodie",
+    color: "grey",
+    rating: 5,
+    gender: "men",
+    discount: Math.round(((1799 - 1299) / 1799) * 100),
+  },
+
+  // ----- WOMEN -----
+  {
+    _id: "n201",
+    name: "Women's Ruffle Sleeve Top",
+    brand: "Zara",
+    price: 849,
+    originalPrice: 1299,
+    image: womenTop1,
+    sizes: ["S", "M", "L"],
+    category: "Top",
+    color: "peach",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1299 - 849) / 1299) * 100),
+  },
+  {
+    _id: "n202",
+    name: "Women’s Blazer",
+    brand: "H&M",
+    price: 999,
+    originalPrice: 1499,
+    image: womenblazer,
+    sizes: ["M", "L", "XL"],
+    category: "Blazer",
+    color: "Navy Blue",
+    rating: 5,
+    gender: "women",
+    discount: Math.round(((1499 - 999) / 1499) * 100),
+  },
+  {
+    _id: "n203",
+    name: "Women’s Summer Midi Dress",
+    brand: "Colors",
+    price: 1399,
+    originalPrice: 1799,
+    image: womenDress,
+    sizes: ["S", "M", "L"],
+    category: "Dress",
+    color: "red",
+    rating: 4,
+    gender: "women",
+    discount: Math.round(((1799 - 1399) / 1799) * 100),
+  },
+  {
+    _id: "n204",
+    name: "Women’s Skirt",
+    brand: "Zudio",
+    price: 1199,
+    originalPrice: 1599,
+    image: womenskirt,
+    sizes: ["M", "L", "XL"],
+    category: "Cardigan",
+    color: "black",
+    rating: 5,
+    gender: "women",
+    discount: Math.round(((1599 - 1199) / 1599) * 100),
+  },
+
+  // ----- KIDS -----
+  {
+    _id: "n301",
+    name: "Boys Zip-Up Jacket",
+    brand: "Hamleys",
+    price: 899,
+    originalPrice: 1299,
+    image: boysJacket1,
+    sizes: ["4-5Y", "6-7Y"],
+    category: "Jacket",
+    color: "black",
+    rating: 4,
+    gender: "boys",
+    discount: Math.round(((1299 - 899) / 1299) * 100),
+  },
+  {
+    _id: "n302",
+    name: "Boys Dino Print Set",
+    brand: "DNMX Kids",
+    price: 749,
+    originalPrice: 1099,
+    image: boysSet1,
+    sizes: ["2-3Y", "4-5Y"],
+    category: "Set",
+    color: "green",
+    rating: 5,
+    gender: "boys",
+    discount: Math.round(((1099 - 749) / 1099) * 100),
+  },
+  {
+    _id: "n303",
+    name: "Girls Floral Skirt Set",
+    brand: "PrettyPeas",
+    price: 999,
+    originalPrice: 1399,
+    image: girlsSkirtSet1,
+    sizes: ["2-3Y", "4-5Y"],
+    category: "Skirt Set",
+    color: "peach",
+    rating: 5,
+    gender: "girls",
+    discount: Math.round(((1399 - 999) / 1399) * 100),
+  },
+  {
+    _id: "n304",
+    name: "Girls Birthday Frock",
+    brand: "DNMX Kids",
+    price: 1299,
+    originalPrice: 1699,
+    image: girlsFrock1,
+    sizes: ["4-5Y", "6-7Y"],
+    category: "Dress",
+    color: "pink",
+    rating: 4,
+    gender: "girls",
+    discount: Math.round(((1699 - 1299) / 1699) * 100),
+  },
+];
+
+export default newArrivals;
