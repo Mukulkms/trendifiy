@@ -38,11 +38,11 @@ const Footer = () => {
         { name: "Men", href: "/men" },
         { name: "Women", href: "/women" },
         { name: "Kids", href: "/kids" },
-        { name: "Accessories", href: "#" },
+        { name: "Accessories", href: "/accessories" },
         { name: "Heavyduty", href: "#" },
         { name: "Sneakers", href: "#" },
         { name: "Customization", href: "#" },
-        { name: "New Arrival", href: "#" },
+        { name: "New Arrival", href: "/new-arrival" },
       ],
     },
   ];
