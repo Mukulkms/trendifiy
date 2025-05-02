@@ -9,7 +9,7 @@ const NewArrivals = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({
     launchDate: [],
-    trending: [],
+    discount: [],
     size: [],
     color: [],
     brands: [],
@@ -36,31 +36,58 @@ const NewArrivals = () => {
   useEffect(() => {
     let filtered = [...products];
 
+    // Gender filter
     if (selectedFilters.gender.length > 0) {
-      filtered = filtered.filter(p =>
+      filtered = filtered.filter((p) =>
         selectedFilters.gender.includes(p.gender)
       );
     }
 
+    // Size filter
     if (selectedFilters.size.length > 0) {
-      filtered = filtered.filter(p =>
-        p.sizes?.some(size => selectedFilters.size.includes(size))
+      filtered = filtered.filter((p) =>
+        p.sizes?.some((size) => selectedFilters.size.includes(size))
       );
     }
 
+    // Color filter
     if (selectedFilters.color.length > 0) {
-      filtered = filtered.filter(p =>
+      filtered = filtered.filter((p) =>
         selectedFilters.color.includes(p.color)
       );
     }
 
+    // Brands filter
     if (selectedFilters.brands.length > 0) {
-      filtered = filtered.filter(p =>
+      filtered = filtered.filter((p) =>
         selectedFilters.brands.includes(p.brand)
       );
     }
 
-    // Optional: handle trending and launchDate filters here if your data supports it
+    // Discount filter
+    if (selectedFilters.discount.length > 0) {
+      const getDiscountThreshold = (label) => parseInt(label); // e.g., "30% or more" → 30
+      const minDiscounts = selectedFilters.discount.map(getDiscountThreshold);
+      const maxRequired = Math.min(...minDiscounts); // show products with >= any selected discount
+      filtered = filtered.filter(
+        (p) => parseInt(p.discount || 0) >= maxRequired
+      );
+    }
+
+    // Launch Date filter (if supported by product model)
+    if (selectedFilters.launchDate.length > 0) {
+      const now = new Date();
+      filtered = filtered.filter((p) => {
+        const launch = new Date(p.launchDate);
+        return selectedFilters.launchDate.some((range) => {
+          const diff = (now - launch) / (1000 * 60 * 60 * 24); // days difference
+          if (range === "last7") return diff <= 7;
+          if (range === "last14") return diff <= 14;
+          if (range === "last30") return diff <= 30;
+          return false;
+        });
+      });
+    }
 
     setFilteredProducts(filtered);
   }, [selectedFilters, products]);
@@ -93,11 +120,15 @@ const NewArrivals = () => {
 
       {/* Product Grid */}
       <div className="w-full lg:w-4/5 overflow-y-auto pr-2">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
+        {filteredProducts.length === 0 ? (
+          <p className="text-gray-600">No products found with selected filters.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

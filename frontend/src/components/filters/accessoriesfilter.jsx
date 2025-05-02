@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faTag, faStar, faPalette, faRulerCombined, faFilter, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faTag,
+  faStar,
+  faPalette,
+  faFilter,
+  faUser,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 import { faShop, faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 
 const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
@@ -24,6 +32,20 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
     return () => window.removeEventListener('resize', updateMaxHeight);
   }, []);
 
+  const handleReset = () => {
+    setSelectedFilters({
+      gender: [],
+      category: [],
+      color: [],
+      price: [],
+      brands: [],
+      ratings: [],
+      discount: [],
+    });
+  };
+
+  const hasActiveFilters = Object.values(selectedFilters || {}).some(arr => arr?.length > 0);
+
   const filterData = [
     {
       name: "gender",
@@ -45,8 +67,6 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
         { label: "Hats & Caps", value: "hats" },
         { label: "Sunglasses", value: "sunglasses" },
         { label: "Watches", value: "watches" },
-        { label: "Jewellery", value: "jewellery" },
-        { label: "Scarves", value: "scarves" },
       ],
     },
     {
@@ -59,21 +79,8 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
         { label: "Tan", value: "tan", color: "bg-yellow-600" },
         { label: "White", value: "white", color: "bg-white border border-gray-300" },
         { label: "Red", value: "red", color: "bg-red-500" },
-        { label: "Blue", value: "blue", color: "bg-blue-500" },
-        { label: "Green", value: "green", color: "bg-green-500" },
         { label: "Gold", value: "gold", color: "bg-yellow-300" },
-        { label: "Silver", value: "silver", color: "bg-gray-400" },
-      ],
-    },
-    {
-      name: "size",
-      title: "Size (if applicable)",
-      icon: <FontAwesomeIcon icon={faRulerCombined} className="mr-2 text-gray-500" />,
-      options: [
-        { label: "S", value: "S" },
-        { label: "M", value: "M" },
-        { label: "L", value: "L" },
-        { label: "One Size", value: "One Size" },
+        { label: "Gray", value: "gray", color: "bg-gray-400" },
       ],
     },
     {
@@ -107,6 +114,7 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
         { label: "★★★★★", value: 5 },
         { label: "★★★★☆", value: 4 },
         { label: "★★★☆☆", value: 3 },
+        { label: "★★☆☆☆", value: 2 },
       ],
     },
     {
@@ -147,10 +155,21 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
       className="bg-white p-4 w-full sm:w-64 top-20 overflow-y-auto rounded-md shadow"
       style={{ maxHeight }}
     >
-      <h2 className="text-lg font-semibold mb-4 flex items-center">
-        <FontAwesomeIcon icon={faFilter} className="w-6 h-6 mr-2 text-gray-700" />
-        Filters
-      </h2>
+      <div className="text-md font-semibold mb-4 flex items-center justify-between">
+        <p className="flex items-center">
+          <FontAwesomeIcon icon={faFilter} className="w-6 h-6 mr-2 text-gray-700" />
+          Filters
+        </p>
+        {hasActiveFilters && (
+          <button
+            onClick={handleReset}
+            className="bg-red-100 hover:bg-red-200 text-red-700 py-2 px-4 rounded transition"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
+      </div>
+
       <div className="space-y-3">
         {filterData.map((filter) => (
           <div key={filter.name} className="border-b border-gray-200 pb-3">
@@ -163,9 +182,7 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
                 <h3 className="font-medium flex items-center">{filter.icon} {filter.title}</h3>
                 <FontAwesomeIcon
                   icon={faChevronDown}
-                  className={`w-5 h-5 text-gray-500 transition-transform ${
-                    openFilters[filter.name] ? "-rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 text-gray-500 transition-transform ${openFilters[filter.name] ? "-rotate-180" : ""}`}
                 />
               </div>
             </button>
@@ -180,7 +197,9 @@ const AccessoriesFilter = ({ selectedFilters, setSelectedFilters }) => {
                       onChange={() => handleChange(filter.name, option.value)}
                     />
                     <span className="text-sm flex items-center">
-                      {option.color && <span className={`inline-block w-4 h-4 rounded-full mr-2 ${option.color}`}></span>}
+                      {option.color && (
+                        <span className={`inline-block w-4 h-4 rounded-full mr-2 ${option.color}`}></span>
+                      )}
                       {option.label}
                     </span>
                   </label>

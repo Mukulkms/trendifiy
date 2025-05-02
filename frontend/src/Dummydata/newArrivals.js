@@ -1,4 +1,3 @@
-// New Arrivals image imports (replace with actual image paths)
 import menJacket from "../assets/images/men-jacket.jpg";
 import menShirt1 from "../assets/images/men-shirt.jpg";
 import menJeans1 from "../assets/images/men-jeans.jpg";
@@ -19,7 +18,7 @@ const newArrivals = [
   {
     _id: "n101",
     name: "Men's Jacket",
-    brand: "UrbanEdge",
+    brand: "Zudio",
     price: 699,
     originalPrice: 999,
     image: menJacket,
@@ -29,6 +28,7 @@ const newArrivals = [
     rating: 4,
     gender: "men",
     discount: Math.round(((999 - 699) / 999) * 100),
+    launchDate: "2025-05-01", 
   },
   {
     _id: "n102",
@@ -43,6 +43,7 @@ const newArrivals = [
     rating: 5,
     gender: "men",
     discount: Math.round(((1599 - 1199) / 1599) * 100),
+    launchDate: "2025-04-22", 
   },
   {
     _id: "n103",
@@ -57,20 +58,22 @@ const newArrivals = [
     rating: 4,
     gender: "men",
     discount: Math.round(((1899 - 1499) / 1899) * 100),
+    launchDate: "2025-04-18", 
   },
   {
     _id: "n104",
     name: "Men's Pullover Hoodie",
-    brand: "DNMX",
+    brand: "Zudio",
     price: 1299,
     originalPrice: 1799,
     image: menHoodie1,
-    sizes: ["M", "L", "XL"," S"],
+    sizes: ["M", "L", "XL", "S"],
     category: "Hoodie",
     color: "grey",
     rating: 5,
     gender: "men",
     discount: Math.round(((1799 - 1299) / 1799) * 100),
+    launchDate: "2025-04-19", 
   },
 
   // ----- WOMEN -----
@@ -84,9 +87,10 @@ const newArrivals = [
     sizes: ["S", "M", "L"],
     category: "Top",
     color: "peach",
-    rating: 4,
+    rating: 2,
     gender: "women",
     discount: Math.round(((1299 - 849) / 1299) * 100),
+    launchDate: "2025-04-17", 
   },
   {
     _id: "n202",
@@ -101,6 +105,7 @@ const newArrivals = [
     rating: 5,
     gender: "women",
     discount: Math.round(((1499 - 999) / 1499) * 100),
+    launchDate: "2025-04-21", 
   },
   {
     _id: "n203",
@@ -115,6 +120,7 @@ const newArrivals = [
     rating: 4,
     gender: "women",
     discount: Math.round(((1799 - 1399) / 1799) * 100),
+    launchDate: "2025-04-23", 
   },
   {
     _id: "n204",
@@ -129,13 +135,14 @@ const newArrivals = [
     rating: 5,
     gender: "women",
     discount: Math.round(((1599 - 1199) / 1599) * 100),
+    launchDate: "2025-04-24", 
   },
 
   // ----- KIDS -----
   {
     _id: "n301",
     name: "Boys Zip-Up Jacket",
-    brand: "Hamleys",
+    brand: "DNMX Kids",
     price: 899,
     originalPrice: 1299,
     image: boysJacket1,
@@ -145,6 +152,7 @@ const newArrivals = [
     rating: 4,
     gender: "boys",
     discount: Math.round(((1299 - 899) / 1299) * 100),
+    launchDate: "2025-04-25", 
   },
   {
     _id: "n302",
@@ -159,11 +167,12 @@ const newArrivals = [
     rating: 5,
     gender: "boys",
     discount: Math.round(((1099 - 749) / 1099) * 100),
+    launchDate: "2025-04-26", 
   },
   {
     _id: "n303",
     name: "Girls Floral Skirt Set",
-    brand: "PrettyPeas",
+    brand: "DNMX Kids",
     price: 999,
     originalPrice: 1399,
     image: girlsSkirtSet1,
@@ -173,6 +182,7 @@ const newArrivals = [
     rating: 5,
     gender: "girls",
     discount: Math.round(((1399 - 999) / 1399) * 100),
+    launchDate: "2025-04-27", 
   },
   {
     _id: "n304",
@@ -187,6 +197,7 @@ const newArrivals = [
     rating: 4,
     gender: "girls",
     discount: Math.round(((1699 - 1299) / 1699) * 100),
+    launchDate: "2025-04-28",
   },
 ];
 

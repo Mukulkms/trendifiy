@@ -38,7 +38,7 @@ const Accessories = () => {
   useEffect(() => {
     let filtered = [...products];
 
-    const { gender, category, size, color, price, brands, ratings, discount } = selectedFilters;
+    const { gender, category, color, price, brands, ratings, discount } = selectedFilters;
 
     if (gender.length > 0) {
       filtered = filtered.filter((p) => gender.includes(p.gender));
@@ -46,21 +46,23 @@ const Accessories = () => {
     if (category.length > 0) {
       filtered = filtered.filter((p) => category.includes(p.category));
     }
-    if (size.length > 0) {
-      filtered = filtered.filter((p) => p.sizes?.some((s) => size.includes(s)));
-    }
+    // if (size.length > 0) {
+    //   filtered = filtered.filter((p) => p.sizes?.some((s) => size.includes(s)));
+    // }
     if (color.length > 0) {
       filtered = filtered.filter((p) => color.includes(p.color));
     }
     if (price.length > 0) {
-      filtered = filtered.filter((p) => price.some((range) => {
-        const productPrice = p.price;
-        if (range === "Under ₹300") return productPrice < 300;
-        if (range === "₹300 - ₹600") return productPrice >= 300 && productPrice <= 600;
-        if (range === "₹600 - ₹1000") return productPrice > 600 && productPrice <= 1000;
-        if (range === "Above ₹1000") return productPrice > 1000;
-        return true;
-      }));
+      filtered = filtered.filter((p) =>
+        price.some((range) => {
+          const productPrice = p.price;
+          if (range === "Under ₹500") return productPrice < 500;
+          if (range === "₹500 - ₹1000") return productPrice >= 500 && productPrice <= 1000;
+          if (range === "₹1000 - ₹2000") return productPrice > 1000 && productPrice <= 2000;
+          if (range === "Above ₹2000") return productPrice > 2000;
+          return true;
+        })
+      );
     }
     if (brands.length > 0) {
       filtered = filtered.filter((p) => brands.includes(p.brand));

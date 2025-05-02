@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faTag, faStar, faPalette, faRulerHorizontal, faFilter, faChild } from '@fortawesome/free-solid-svg-icons';
-import { faShop } from '@fortawesome/free-solid-svg-icons';
-import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faTag,
+  faStar,
+  faPalette,
+  faRulerHorizontal,
+  faFilter,
+  faChild,
+  faShop,
+  faIndianRupeeSign,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
 const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
   const [openFilters, setOpenFilters] = useState({});
@@ -11,25 +20,34 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
 
   useEffect(() => {
     const updateMaxHeight = () => {
-        if (containerRef.current) {
-            // Get the height of the parent container
-            const parentHeight = containerRef.current.parentElement?.offsetHeight || window.innerHeight;
-            // Subtract some value (e.g., 120px) to leave space for other elements
-            const calculatedMaxHeight = parentHeight - 120;
-            setMaxHeight(calculatedMaxHeight > 0 ? `${calculatedMaxHeight}px` : 'none');
-        } else {
-          setMaxHeight('none');
-        }
+      if (containerRef.current) {
+        const parentHeight = containerRef.current.parentElement?.offsetHeight || window.innerHeight;
+        const calculatedMaxHeight = parentHeight - 120;
+        setMaxHeight(calculatedMaxHeight > 0 ? `${calculatedMaxHeight}px` : 'none');
+      } else {
+        setMaxHeight('none');
+      }
     };
 
     updateMaxHeight();
     window.addEventListener('resize', updateMaxHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateMaxHeight);
-    };
+    return () => window.removeEventListener('resize', updateMaxHeight);
   }, []);
 
+  const handleReset = () => {
+    setSelectedFilters({
+      gender: [],
+      category: [],
+      size: [],
+      color: [],
+      price: [],
+      brands: [],
+      ratings: [],
+      discount: [],
+    });
+  };
+
+  const hasActiveFilters = Object.values(selectedFilters || {}).some(arr => arr?.length > 0);
 
   const filterData = [
     {
@@ -77,9 +95,9 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
         { label: "Yellow", value: "yellow", color: "bg-yellow-400" },
         { label: "Green", value: "green", color: "bg-green-500" },
         { label: "Grey", value: "grey", color: "bg-gray-400" },
-        { label: "Lavender", value: "lavender", color: "bg-purple-300"},
-        { label: "Peach", value: "peach", color: "bg-orange-200"},
-        { label: "Washed Grey", value: "washed grey", color: "bg-gray-300"}
+        { label: "Lavender", value: "lavender", color: "bg-purple-300" },
+        { label: "Peach", value: "peach", color: "bg-orange-200" },
+        { label: "Washed Grey", value: "washed grey", color: "bg-gray-300" },
       ],
     },
     {
@@ -153,11 +171,21 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
   };
 
   return (
-    <div ref={containerRef} className="bg-white p-4 w-full sm:w-64 top-20 overflow-y-auto rounded-md shadow" style={{ maxHeight: maxHeight }}>
-      <h2 className="text-lg font-semibold mb-4 flex items-center">
-        <FontAwesomeIcon icon={faFilter} className="w-6 h-6 mr-2 text-gray-700" />
-        Filters
-      </h2>
+    <div ref={containerRef} className="bg-white p-4 w-full sm:w-64 top-20 overflow-y-auto rounded-md shadow" style={{ maxHeight }}>
+      <div className="text-md font-semibold mb-4 flex items-center justify-between">
+        <p className="flex items-center">
+          <FontAwesomeIcon icon={faFilter} className="w-6 h-6 mr-2 text-gray-700" />
+          Filters
+        </p>
+        {hasActiveFilters && (
+          <button
+            onClick={handleReset}
+            className="bg-red-100 hover:bg-red-200 text-red-700 py-2 px-4 rounded transition"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
+      </div>
 
       <div className="space-y-3">
         {filterData.map((filter) => (
@@ -171,9 +199,7 @@ const ProductFilter = ({ selectedFilters, setSelectedFilters, gender }) => {
                 <h3 className="font-medium flex items-center">{filter.icon} {filter.title}</h3>
                 <FontAwesomeIcon
                   icon={faChevronDown}
-                  className={`w-5 h-5 text-gray-500 transition-transform ${
-                    openFilters[filter.name] ? "-rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 text-gray-500 transition-transform ${openFilters[filter.name] ? "-rotate-180" : ""}`}
                 />
               </div>
             </button>

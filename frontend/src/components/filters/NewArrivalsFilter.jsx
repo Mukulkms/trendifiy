@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faCalendarAlt, faBolt, faRulerHorizontal, faFilter,  faTag } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faCalendarAlt,
+  faBolt,
+  faRulerHorizontal,
+  faFilter,
+  faTag,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
 const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
   const [openFilters, setOpenFilters] = useState({});
@@ -35,14 +43,14 @@ const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
       ],
     },
     {
-      name: "trending",
-      title: "Trending Styles",
+      name: "discount",
+      title: "Discount",
       icon: <FontAwesomeIcon icon={faBolt} className="mr-2 text-yellow-500" />,
       options: [
-        { label: "Graphic Tees", value: "graphic" },
-        { label: "Oversized", value: "oversized" },
-        { label: "Co-ords", value: "co-ords" },
-        { label: "Sporty", value: "sporty" },
+        { label: "10% or more", value: "10% or more" },
+        { label: "20% or more", value: "20% or more" },
+        { label: "30% or more", value: "30% or more" },
+        { label: "50% or more", value: "50% or more" },
       ],
     },
     {
@@ -59,35 +67,36 @@ const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
         { label: "6-7Y", value: "6-7Y" },
       ],
     },
-    // {
-    //   name: "color",
-    //   title: "Color",
-    //   icon: <FontAwesomeIcon icon={faPalette} className="mr-2 text-gray-500" />,
-    //   options: [
-    //     { label: "White", value: "white", color: "bg-white" },
-    //     { label: "Pastel", value: "pastel", color: "bg-pink-200" },
-    //     { label: "Monochrome", value: "monochrome", color: "bg-gray-600" },
-    //     { label: "Earth Tones", value: "earth", color: "bg-yellow-700" },
-    //   ],
-    // },
     {
       name: "brands",
       title: "Brands",
       icon: <FontAwesomeIcon icon={faTag} className="mr-2 text-gray-500" />,
       options: [
-        { label: "UrbanEdge", value: "UrbanEdge" },
-        { label: "TrendRush", value: "TrendRush" },
-        { label: "StyleMint", value: "StyleMint" },
-        { label: "FreshFit", value: "FreshFit" },
+        { label: "Zudio", value: "Zudio" },
+        { label: "Rare Rabbit", value: "Rare Rabbit" },
+        { label: "Colors", value: "Colors" },
+        { label: "DNMX Kids", value: "DNMX Kids" },
+        { label: "Zara", value: "Zara" },
+        { label: "H&M", value: "H&M" },
+        { label: "Levis", value: "Levis" },
+      ],
+    },
+    // Example of adding gender filter
+    {
+      name: "gender",
+      title: "Gender",
+      icon: <FontAwesomeIcon icon={faTag} className="mr-2 text-gray-500" />,
+      options: [
+        { label: "Men", value: "men" },
+        { label: "Female", value: "women" },
+        { label: "Boys", value: "boys" },
+        { label: "Girls", value: "girls"}
       ],
     },
   ];
 
   const toggleFilter = (filterName) => {
-    setOpenFilters((prev) => ({
-      ...prev,
-      [filterName]: !prev[filterName],
-    }));
+    setOpenFilters((prev) => ({ ...prev, [filterName]: !prev[filterName] }));
   };
 
   const handleChange = (type, value) => {
@@ -102,12 +111,47 @@ const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
     });
   };
 
+  const handleReset = () => {
+    setSelectedFilters({
+      launchDate: [],
+      discount: [],
+      size: [],
+      brands: [],
+      gender: [],
+      color: [],
+      trending: [],
+    });
+  };
+
+  const isChecked = (filterName, value) => {
+    return selectedFilters[filterName]?.includes(value) || false;
+  };
+
+  const hasActiveFilters = Object.values(selectedFilters || {}).some(arr => arr?.length > 0);
+
   return (
-    <div ref={containerRef} className="bg-white p-4 w-full sm:w-64 top-20 overflow-y-auto rounded-md shadow" style={{ maxHeight: maxHeight }}>
-      <h2 className="text-lg font-semibold mb-4 flex items-center">
+    <div
+      ref={containerRef}
+      className="bg-white p-4 w-full sm:w-64 top-20 overflow-y-auto rounded-md shadow"
+      style={{ maxHeight: maxHeight }}
+    >
+      <div className="text-md font-semibold mb-4 flex items-center justify-between">
+       <p className="flex items-center">  
         <FontAwesomeIcon icon={faFilter} className="w-6 h-6 mr-2 text-gray-700" />
-        New Arrivals Filters
-      </h2>
+        Filters 
+
+       </p>
+  
+      
+      {hasActiveFilters && (
+        <button
+        onClick={handleReset}
+        className="  bg-red-100 hover:bg-red-200 text-red-700 py-2 px-4 rounded transition"
+        >
+         <FontAwesomeIcon icon={faTimes} />
+        </button>
+      )}
+      </div>
 
       <div className="space-y-3">
         {filterData.map((filter) => (
@@ -132,11 +176,13 @@ const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
                     <input
                       type="checkbox"
                       className="form-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                      checked={selectedFilters[filter.name]?.includes(option.value) || false}
+                      checked={isChecked(filter.name, option.value)}
                       onChange={() => handleChange(filter.name, option.value)}
                     />
                     <span className="text-sm flex items-center">
-                      {option.color && <span className={`inline-block w-4 h-4 rounded-full mr-2 ${option.color}`}></span>}
+                      {option.color && (
+                        <span className={`inline-block w-4 h-4 rounded-full mr-2 ${option.color}`}></span>
+                      )}
                       {option.label}
                     </span>
                   </label>
@@ -146,6 +192,7 @@ const NewArrivalsFilter = ({ selectedFilters, setSelectedFilters }) => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };
