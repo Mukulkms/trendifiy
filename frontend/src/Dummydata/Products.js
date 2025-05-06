@@ -16,9 +16,7 @@ import womenHoodie2 from "../assets/images/w6.jpg";
 import womenJoggers from "../assets/images/w3.jpg";
 import womenJeans from "../assets/images/w4.jpg";
 import womenleggins from "../assets/images/w7.jpg";
-import womenTee3 from "../assets/images/w5.jpg"; //
-
-
+import womenTee3 from "../assets/images/w5.jpg";
 
 const menProducts = [
   {
@@ -33,6 +31,8 @@ const menProducts = [
     color: "red",
     rating: 4,
     gender: "men",
+    description: "Vibrant and stylish printed T-shirt for casual outings.",
+    details: "Made from 100% cotton. Regular fit. Machine washable.",
     discount: Math.round(((1299 - 799) / 1299) * 100),
   },
   {
@@ -47,6 +47,8 @@ const menProducts = [
     color: "blue",
     rating: 3,
     gender: "men",
+    description: "Comfortable slim fit jeans with a stretchable waist.",
+    details: "Material: 98% cotton, 2% elastane. Slim tapered fit.",
     discount: Math.round(((1999 - 1499) / 1999) * 100),
   },
   {
@@ -61,6 +63,8 @@ const menProducts = [
     color: "black",
     rating: 5,
     gender: "men",
+    description: "Stay cozy with this oversized fleece-lined hoodie.",
+    details: "Brushed fleece interior, kangaroo pockets, relaxed fit.",
     discount: Math.round(((2499 - 1799) / 2499) * 100),
   },
   {
@@ -75,6 +79,8 @@ const menProducts = [
     color: "blue",
     rating: 4,
     gender: "men",
+    description: "Essential round neck tee for everyday comfort.",
+    details: "Pre-shrunk cotton. Breathable and lightweight.",
     discount: Math.round(((799 - 499) / 799) * 100),
   },
   {
@@ -89,6 +95,8 @@ const menProducts = [
     color: "black",
     rating: 5,
     gender: "men",
+    description: "Bold Nike graphic tee with a streetwear edge.",
+    details: "Poly-cotton blend. Soft hand feel. Regular fit.",
     discount: Math.round(((1499 - 999) / 1499) * 100),
   },
   {
@@ -103,6 +111,8 @@ const menProducts = [
     color: "red",
     rating: 3,
     gender: "men",
+    description: "Performance hoodie perfect for workouts or lounging.",
+    details: "Dry-fit tech. Adjustable drawstring. Zipper pockets.",
     discount: Math.round(((2499 - 1899) / 2499) * 100),
   },
   {
@@ -117,6 +127,8 @@ const menProducts = [
     color: "blue",
     rating: 4,
     gender: "men",
+    description: "Tapered joggers with elastic waistband and cuffed hem.",
+    details: "Lightweight knit. Machine washable. Slim fit.",
     discount: Math.round(((1999 - 1299) / 1999) * 100),
   },
   {
@@ -131,6 +143,8 @@ const menProducts = [
     color: "black",
     rating: 3,
     gender: "men",
+    description: "Minimalist R-Logo hoodie made for daily wear.",
+    details: "Soft inner lining, half-zip design, drop shoulder fit.",
     discount: Math.round(((2199 - 1859) / 2199) * 100),
   },
 ];
@@ -148,6 +162,8 @@ const womenProducts = [
     color: "pink",
     rating: 4,
     gender: "women",
+    description: "Floral printed tee perfect for summer brunches.",
+    details: "Soft rayon fabric. Relaxed fit. Hand wash recommended.",
     discount: Math.round(((1299 - 899) / 1299) * 100),
   },
   {
@@ -162,6 +178,8 @@ const womenProducts = [
     color: "lavender",
     rating: 5,
     gender: "women",
+    description: "Stylish lavender hoodie with breathable mesh panels.",
+    details: "Polyester blend. Full-zip. Thumbholes at cuffs.",
     discount: Math.round(((2199 - 1699) / 2199) * 100),
   },
   {
@@ -176,6 +194,8 @@ const womenProducts = [
     color: "grey",
     rating: 4,
     gender: "women",
+    description: "High-waisted joggers with cropped ankle for a trendy look.",
+    details: "Stretchable cotton. Side pockets. Slim fit.",
     discount: Math.round(((1799 - 1299) / 1799) * 100),
   },
   {
@@ -190,6 +210,8 @@ const womenProducts = [
     color: "blue",
     rating: 4,
     gender: "women",
+    description: "Trendy faded wash jeans with a relaxed silhouette.",
+    details: "Classic 5-pocket style. Button fly. Machine washable.",
     discount: Math.round(((2299 - 1599) / 2299) * 100),
   },
   {
@@ -204,12 +226,14 @@ const womenProducts = [
     color: "white",
     rating: 3,
     gender: "women",
+    description: "Minimalistic graphic print tee for casual styling.",
+    details: "Crew neck. 100% cotton. Standard fit.",
     discount: Math.round(((999 - 699) / 999) * 100),
   },
   {
     _id: "w6",
     name: "Soft Knit Hoodie",
-    branch: "Forever 21",
+    brand: "Forever 21",
     price: 1499,
     originalPrice: 1999,
     image: womenHoodie2,
@@ -218,6 +242,8 @@ const womenProducts = [
     color: "peach",
     rating: 4,
     gender: "women",
+    description: "Super soft knit hoodie with peach pastel tone.",
+    details: "Drop shoulder. Kangaroo pocket. Light stretch.",
     discount: Math.round(((1999 - 1499) / 1999) * 100),
   },
   {
@@ -232,6 +258,8 @@ const womenProducts = [
     color: "black",
     rating: 5,
     gender: "women",
+    description: "Performance leggings for yoga and high-intensity workouts.",
+    details: "High-rise waist. 4-way stretch fabric. Sweat-wicking.",
     discount: Math.round(((1699 - 1199) / 1699) * 100),
   },
   {
@@ -240,12 +268,14 @@ const womenProducts = [
     brand: "Only",
     price: 749,
     originalPrice: 1099,
-    image: womenTee3, // ✅ New unique image used here
+    image: womenTee3,
     sizes: ["M", "L"],
     category: "Tops",
     color: "washed grey",
     rating: 4,
     gender: "women",
+    description: "Vintage-inspired tee with a modern silhouette.",
+    details: "Faded dye effect. Lightweight cotton. Relaxed shape.",
     discount: Math.round(((1099 - 749) / 1099) * 100),
   },
 ];
