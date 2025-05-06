@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiFilter, FiX } from "react-icons/fi";
 import ProductFilter from "../components/filters/ProductFilter";
 import ProductCard from "../components/ProductCard";
-import dummyProducts from "../Hooks/Products";
+import dummyProducts from "../Dummydata/Products";
 
 const MenClothing = () => {
   const [allProducts, setAllProducts] = useState([]);

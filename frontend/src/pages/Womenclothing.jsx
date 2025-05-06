@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiFilter, FiX } from "react-icons/fi";
 import ProductFilter from "../components/filters/ProductFilter";
 import ProductCard from "../components/ProductCard";
-import dummyProducts from "../Hooks/Products"; // Update to women-specific dummy data if needed
+import dummyProducts from "../Dummydata/Products"; // Update to women-specific dummy data if needed
 
 const WomenClothing = () => {
   const [products, setProducts] = useState([]);
