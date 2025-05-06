@@ -185,9 +185,10 @@ export default function Header() {
               )}
             </div>
           )}
-
-          <Heart className="w-6 h-6 cursor-pointer hover:text-indigo-500 transition" />
-          <Link to="/cart">
+           <Link to="/my-wishlist">
+          <  Heart className="w-6 h-6 cursor-pointer hover:text-indigo-500 transition" />
+           </Link>
+          <Link to="/add-to-cart">
             <ShoppingBag className="w-6 h-6 cursor-pointer hover:text-indigo-500 transition" />
           </Link>
         </div>

@@ -9,6 +9,9 @@ import Footer from './components/footer';
 import KidsClothing from './pages/KidsClothing';
 import Accessories from './pages/Accessories';
 import NewArrivals from './pages/NewArrivals';
+import CartPage from './pages/CartPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
+import WishlistPage from './pages/Wishlist';
 function App() {
   return (
     <Router>
@@ -22,6 +25,9 @@ function App() {
           <Route path="/kids" element={<KidsClothing />} />
           <Route path="/accessories" element={<Accessories />} />
           <Route path="/new-arrival" element={<NewArrivals />} />
+          <Route path="/add-to-cart" element={<CartPage/>} />
+          <Route path="/product/:id" element={<ProductDetailsPage/>} />
+          <Route path='/my-wishlist' element={<WishlistPage/>}/>
         </Routes>
         <Footer />
       </AuthProvider>
